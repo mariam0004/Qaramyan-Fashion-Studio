@@ -20,10 +20,10 @@
         .btn-add { grid-column: span 2; background:black; color:white; border:none; cursor:pointer; font-weight: bold; text-transform: uppercase; }
         .btn-add:hover { background: #333; }
 
-        /* Սև և քառակուսի ֆիլտրի բաժին */
+        /* Բաց մոխրագույն ֆիլտրի բաժին */
         .filter-section { 
             flex: 1;
-            background: #1a1a1a; 
+            background: #f4f4f4; /* Շատ բաց մոխրագույն */
             padding: 20px; 
             border-radius: 8px; 
             display: flex;
@@ -32,12 +32,13 @@
             justify-content: center;
             min-width: 220px;
             max-width: 280px;
+            border: 1px solid #ddd;
         }
-        .filter-title { font-weight: bold; margin-bottom: 12px; color: #ffffff; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-        #filterDate { width: 100%; margin-bottom: 12px; background: #333; color: white; border: 1px solid #444; text-align: center; cursor: pointer; }
-        .btn-clear-filter { width: 100%; background: white; color: black; border: none; padding: 10px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
-        .btn-clear-filter:hover { background: #ddd; }
-        #filterStatus { font-size: 11px; margin-top: 10px; color: #bbb; text-align: center; line-height: 1.4; }
+        .filter-title { font-weight: bold; margin-bottom: 12px; color: #333; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        #filterDate { width: 100%; margin-bottom: 12px; background: white; color: black; border: 1px solid #ccc; text-align: center; cursor: pointer; }
+        .btn-clear-filter { width: 100%; background: #333; color: white; border: none; padding: 10px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .btn-clear-filter:hover { background: #000; }
+        #filterStatus { font-size: 12px; margin-top: 10px; color: #555; text-align: center; line-height: 1.4; }
 
         /* Աղյուսակ */
         table { width:100%; margin-top:20px; border-collapse:collapse; background: white; overflow: hidden; border-radius: 8px; }
@@ -51,7 +52,9 @@
         .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; transition: 0.3s; }
         .delete-btn:hover { background: #dc3545; color: white; }
 
-        .btn-clear-all { margin-top:25px; background:#6c757d; color:white; border:none; width: 100%; cursor: pointer; padding: 12px; border-radius: 6px; font-size: 14px; }
+        /* Կարմիր կոճակ բոլորը ջնջելու համար */
+        .btn-clear-all { margin-top:25px; background:#d9534f; color:white; border:none; width: 100%; cursor: pointer; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        .btn-clear-all:hover { background: #c9302c; }
         
         .info { margin-top:30px; text-align:center; font-size:13px; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
@@ -81,7 +84,7 @@
         <div class="filter-section">
             <span class="filter-title">📅 Ֆիլտրել ըստ օրվա</span>
             <input type="date" id="filterDate">
-            <button class="btn-clear-filter" onclick="clearFilter()">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
+            <button class="btn-clear-filter" onclick="clearFilter()">ՏԵՍՆԵԼ ԲՈԼՈՐՈ</button>
             <p id="filterStatus"></p>
         </div>
     </div>
@@ -177,7 +180,7 @@ document.getElementById("filterDate").addEventListener("change", (e) => {
     const filtered = allOrders.filter(order => order.date === selectedDate);
     renderOrders(filtered);
     const total = filtered.reduce((sum, order) => sum + Number(order.price), 0);
-    document.getElementById("filterStatus").innerHTML = `Ընտրված օրվա պատվերներ՝ ${filtered.length}<br><b>Ընդհանուր՝ ${total.toLocaleString()} ֏</b>`;
+    document.getElementById("filterStatus").innerHTML = `Պատվերներ՝ ${filtered.length}<br><b>Գումար՝ ${total.toLocaleString()} ֏</b>`;
 });
 
 function clearFilter() {
