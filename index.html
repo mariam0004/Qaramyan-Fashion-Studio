@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <title>Qaramyan Fashion Studio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .logo {
+            text-align: center;
+        }
+        .logo img {
+            max-width: 300px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            grid-column: span 2;
+            background: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #000;
+            color: #fff;
+        }
+        .ready {
+            color: green;
+            font-weight: bold;
+        }
+        .not-ready {
+            color: red;
+            font-weight: bold;
+        }
+        .info {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">
+        <img src="logo.png" alt="Qaramyan Fashion Studio">
+    </div>
+
+    <h1>Qaramyan Fashion Studio</h1>
+
+    <form id="orderForm">
+        <input type="text" id="name" placeholder="Հաճախորդի անուն" required>
+        <input type="tel" id="phone" placeholder="Հեռախոսահամար" required>
+        <input type="number" id="price" placeholder="Պատվերի արժեք (֏)" required>
+        <select id="status">
+            <option value="not-ready">Պատրաստ չէ</option>
+            <option value="ready">Պատրաստ է</option>
+        </select>
+        <button type="submit">Ավելացնել պատվերը</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Անուն</th>
+                <th>Հեռախոս</th>
+                <th>Արժեք</th>
+                <th>Կարգավիճակ</th>
+            </tr>
+        </thead>
+        <tbody id="ordersTable"></tbody>
+    </table>
+
+    <div class="info">
+        📍 Adonc 6/1 <br>
+        📷 Instagram: qaramyan_fashion <br>
+        📞 098-14-81-14
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById("orderForm");
+    const table = document.getElementById("ordersTable");
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    function renderOrders() {
+        table.innerHTML = "";
+        orders.forEach(order => {
+            table.innerHTML += `
+                <tr>
+                    <td>${order.name}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.price} ֏</td>
+                    <td class="${order.status}">
+                        ${order.status === "ready" ? "Պատրաստ է" : "Պատրաստ չէ"}
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        const order = {
+            name: name.value,
+            phone: phone.value,
+            price: price.value,
+            status: status.value
+        };
+        orders.push(order);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        renderOrders();
+        form.reset();
+    });
+
+    renderOrders();
+</script>
+
+</body>
+</html>
