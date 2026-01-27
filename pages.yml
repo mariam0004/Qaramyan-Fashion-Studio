@@ -3,7 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - main  # Երբ push անես main branch-ին
+      - main
+  workflow_dispatch:   # Ավելացրու սա manual deploy-ի համար
 
 jobs:
   build-and-deploy:
