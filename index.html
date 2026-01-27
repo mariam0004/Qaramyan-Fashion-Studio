@@ -1,218 +1,164 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-    <meta charset="UTF-8">
-    <title>Qaramyan Fashion Studio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        h1 {
-            text-align: center;
-        }
-        .logo {
-            text-align: center;
-        }
-        .logo img {
-            max-width: 300px;
-        }
-        form {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        input, select, button {
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            grid-column: span 2;
-            background: black;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        th {
-            background: #000;
-            color: #fff;
-        }
-        .ready {
-            color: green;
-            font-weight: bold;
-        }
-        .not-ready {
-            color: red;
-            font-weight: bold;
-        }
-        .info {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Qaramyan Fashion Studio</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f7f7f7; margin:0; padding:20px; }
+.container { max-width: 900px; margin:auto; background:white; padding:20px; border-radius:10px; }
+h1 { text-align:center; }
+.logo { text-align:center; }
+.logo img { max-width:300px; }
+form { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-top:20px; }
+input, select, button { padding:10px; font-size:16px; }
+button { grid-column: span 2; background:black; color:white; border:none; cursor:pointer; border-radius:5px; }
+table { width:100%; margin-top:30px; border-collapse:collapse; }
+th, td { border:1px solid #ddd; padding:10px; text-align:center; }
+th { background:#000; color:#fff; }
+.ready { color:green; font-weight:bold; }
+.not-ready { color:red; font-weight:bold; }
+.info { margin-top:20px; text-align:center; font-size:14px; }
+</style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo">
-        <img src="logo.png" alt="Qaramyan Fashion Studio">
-    </div>
-
-    <h1>Qaramyan Fashion Studio</h1>
-
-    <form id="orderForm">
-        <input type="text" id="name" placeholder="Հաճախորդի անուն" required>
-        <input type="tel" id="phone" placeholder="Հեռախոսահամար" required>
-        <input type="number" id="price" placeholder="Պատվերի արժեք (֏)" required>
-        <select id="status">
-            <option value="not-ready">Պատրաստ չէ</option>
-            <option value="ready">Պատրաստ է</option>
-        </select>
-        <button type="submit">Ավելացնել պատվերը</button>
-        <button id="clearOrders" style="margin-top:15px; background:red;">Մաքրել բոլոր պատվերները</button>
-        
-    </form>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Անուն</th>
-                <th>Հեռախոս</th>
-                <th>Արժեք</th>
-                <th>Կարգավիճակ</th>
-            </tr>
-        </thead>
-        <tbody id="ordersTable"></tbody>
-    </table>
-
-    <div class="info">
-        📍 Adonc 6/1 Երազ բնակելի թաղամաս<br>
-        📷 Instagram: qaramyan_fashion <br>
-        📞 098-14-81-14, 098-14-81-15
-    </div>
+<div class="logo">
+<img src="logo.png" alt="Qaramyan Fashion Studio">
 </div>
-    
+
+<h1>Qaramyan Fashion Studio</h1>
+
+<form id="orderForm">
+<input type="text" id="name" placeholder="Հաճախորդի անուն" required>
+<input type="tel" id="phone" placeholder="Հեռախոսահամար" required>
+<input type="number" id="price" placeholder="Պատվերի արժեք (֏)" required>
+<select id="status">
+<option value="not-ready">Պատրաստ չէ</option>
+<option value="ready">Պատրաստ է</option>
+</select>
+<button type="submit">Ավելացնել պատվերը</button>
+</form>
+
+<button id="clearOrders" style="margin-top:15px; background:red;">Մաքրել բոլոր պատվերները</button>
+
+<table>
+<thead>
+<tr>
+<th>Անուն</th>
+<th>Հեռախոս</th>
+<th>Արժեք</th>
+<th>Կարգավիճակ</th>
+<th>Գործողություններ</th>
+</tr>
+</thead>
+<tbody id="ordersTable"></tbody>
+</table>
+
+<div class="info">
+📍 Adonc 6/1 Երազ բնակելի թաղամաս<br>
+📷 Instagram: qaramyan_fashion <br>
+📞 098-14-81-14, 098-14-81-15
+</div>
+</div>
+
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    
+
 <script>
-  // Firebase կոնֆիգ
-  const firebaseConfig = {
-    apiKey: "AIzaSyDeYARXyQU70vN5wIXCNBYlc1NLv_YutCQ",
-    authDomain: "qaramyan-fashion-studio-30dcc.firebaseapp.com",
-    projectId: "qaramyan-fashion-studio-30dcc",
-    storageBucket: "qaramyan-fashion-studio-30dcc.appspot.com",
-    messagingSenderId: "841998182362",
-    appId: "1:841998182362:web:94ce4bbc079a7ceb8c42e3"
-  };
+// Firebase կոնֆիգ
+const firebaseConfig = {
+apiKey: "AIzaSyDeYARXyQU70vN5wIXCNBYlc1NLv_YutCQ",
+authDomain: "qaramyan-fashion-studio-30dcc.firebaseapp.com",
+projectId: "qaramyan-fashion-studio-30dcc",
+storageBucket: "qaramyan-fashion-studio-30dcc.appspot.com",
+messagingSenderId: "841998182362",
+appId: "1:841998182362:web:94ce4bbc079a7ceb8c42e3"
+};
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-  const form = document.getElementById("orderForm");
-  const table = document.getElementById("ordersTable");
+const form = document.getElementById("orderForm");
+const table = document.getElementById("ordersTable");
+const clearBtn = document.getElementById("clearOrders");
 
-  let orders = []; // Սկզբնական զանգված
+let orders = [];
 
-  function renderOrders() {
-      table.innerHTML = "";
-      orders.forEach(order => {
-          table.innerHTML += `
-              <tr>
-                  <td>${order.name}</td>
-                  <td>${order.phone}</td>
-                  <td>${order.price} ֏</td>
-                  <td class="${order.status}">${order.status === "ready" ? "Պատրաստ է" : "Պատրաստ չէ"}</td>
-                  <td><button onclick="deleteOrder('${docId}')">Ջնջել</button></td>
-              </tr>
-          `;
-      });
-  }
+// Ֆունկցիա՝ աղյուսակն ավելացնելու
+function renderOrders() {
+    table.innerHTML = "";
+    orders.forEach(order => {
+        table.innerHTML += `
+            <tr>
+                <td>${order.name}</td>
+                <td>${order.phone}</td>
+                <td>${order.price} ֏</td>
+                <td class="${order.status}">${order.status === "ready" ? "Պատրաստ է" : "Պատրաստ չէ"}</td>
+                <td><button onclick="deleteOrder('${order.id}')">Ջնջել</button></td>
+            </tr>
+        `;
+    });
+}
 
-  // Կարդալ Firestore-ից առկա պատվերները երբ էջը բացվի
-  db.collection("orders").orderBy("createdAt", "asc").get().then(snapshot => {
-      snapshot.forEach(doc => {
-          orders.push(doc.data());
-      });
-      renderOrders();
-  });
+// Կարդալ Firestore-ից առկա պատվերները
+db.collection("orders").orderBy("createdAt", "asc").get().then(snapshot => {
+    snapshot.forEach(doc => {
+        const data = doc.data();
+        data.id = doc.id;
+        orders.push(data);
+    });
+    renderOrders();
+});
 
-  form.addEventListener("submit", async e => {
-      e.preventDefault();
+// Ավելացնել նոր պատվեր
+form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const order = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        price: document.getElementById("price").value,
+        status: document.getElementById("status").value,
+        createdAt: new Date()
+    };
+    try {
+        const docRef = await db.collection("orders").add(order);
+        order.id = docRef.id;
+        orders.push(order);
+        renderOrders();
+        form.reset();
+    } catch(err) {
+        console.error("Error adding document:", err);
+    }
+});
 
-      const order = {
-          name: document.getElementById("name").value,
-          phone: document.getElementById("phone").value,
-          price: document.getElementById("price").value,
-          status: document.getElementById("status").value,
-          createdAt: new Date()
-      };
-
-      try {
-          // Add to Firestore
-          await db.collection("orders").add(order);
-
-          // Add to local array and render
-          orders.push(order);
-          renderOrders();
-
-          form.reset();
-      } catch (err) {
-          console.error("Error adding document: ", err);
-      }
-  });
-
-    const clearBtn = document.getElementById("clearOrders");
-
+// Ջնջել բոլոր պատվերները
 clearBtn.addEventListener("click", async () => {
     if (!confirm("Ի՞նչ համոզված եք, որ ցանկանում եք ջնջել բոլոր պատվերները?")) return;
-
     try {
         const snapshot = await db.collection("orders").get();
-        snapshot.forEach(doc => {
-            doc.ref.delete();
-        });
-
-        orders = []; // տեղում զանգվածը մաքրել
+        snapshot.forEach(doc => doc.ref.delete());
+        orders = [];
         renderOrders();
         alert("Բոլոր պատվերները ջնջված են");
-    } catch (err) {
+    } catch(err) {
         console.error("Error deleting orders:", err);
     }
 });
 
-    async function deleteOrder(docId) {
-    await db.collection("orders").doc(docId).delete();
-    orders = orders.filter(o => o.id !== docId);
-    renderOrders();
+// Ջնջել կոնկրետ պատվերը
+async function deleteOrder(docId) {
+    try {
+        await db.collection("orders").doc(docId).delete();
+        orders = orders.filter(o => o.id !== docId);
+        renderOrders();
+    } catch(err) {
+        console.error("Error deleting document:", err);
+    }
 }
 </script>
 
 </body>
 </html>
-
-
