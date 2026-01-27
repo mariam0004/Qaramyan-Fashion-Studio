@@ -92,6 +92,7 @@
         </select>
         <button type="submit">Ավելացնել պատվերը</button>
         <button id="clearOrders" style="margin-top:15px; background:red;">Մաքրել բոլոր պատվերները</button>
+        
     </form>
 
     <table>
@@ -107,9 +108,9 @@
     </table>
 
     <div class="info">
-        📍 Adonc 6/1 <br>
+        📍 Adonc 6/1 Երազ բնակելի թաղամաս<br>
         📷 Instagram: qaramyan_fashion <br>
-        📞 098-14-81-14
+        📞 098-14-81-14, 098-14-81-15
     </div>
 </div>
     
@@ -146,6 +147,7 @@
                   <td>${order.phone}</td>
                   <td>${order.price} ֏</td>
                   <td class="${order.status}">${order.status === "ready" ? "Պատրաստ է" : "Պատրաստ չէ"}</td>
+                  <td><button onclick="deleteOrder('${docId}')">Ջնջել</button></td>
               </tr>
           `;
       });
@@ -202,8 +204,15 @@ clearBtn.addEventListener("click", async () => {
         console.error("Error deleting orders:", err);
     }
 });
+
+    async function deleteOrder(docId) {
+    await db.collection("orders").doc(docId).delete();
+    orders = orders.filter(o => o.id !== docId);
+    renderOrders();
+}
 </script>
 
 </body>
 </html>
+
 
