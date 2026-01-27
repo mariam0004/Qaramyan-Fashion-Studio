@@ -91,6 +91,7 @@
             <option value="ready">Պատրաստ է</option>
         </select>
         <button type="submit">Ավելացնել պատվերը</button>
+        <button id="clearOrders" style="margin-top:15px; background:red;">Մաքրել բոլոր պատվերները</button>
     </form>
 
     <table>
@@ -182,7 +183,27 @@
           console.error("Error adding document: ", err);
       }
   });
+
+    const clearBtn = document.getElementById("clearOrders");
+
+clearBtn.addEventListener("click", async () => {
+    if (!confirm("Ի՞նչ համոզված եք, որ ցանկանում եք ջնջել բոլոր պատվերները?")) return;
+
+    try {
+        const snapshot = await db.collection("orders").get();
+        snapshot.forEach(doc => {
+            doc.ref.delete();
+        });
+
+        orders = []; // տեղում զանգվածը մաքրել
+        renderOrders();
+        alert("Բոլոր պատվերները ջնջված են");
+    } catch (err) {
+        console.error("Error deleting orders:", err);
+    }
+});
 </script>
 
 </body>
 </html>
+
