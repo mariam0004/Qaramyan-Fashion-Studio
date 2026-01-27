@@ -128,7 +128,19 @@
     const form = document.getElementById("orderForm");
     const table = document.getElementById("ordersTable");
 
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    form.addEventListener("submit", e => {
+  e.preventDefault();
+
+  db.collection("orders").add({
+    name: name.value,
+    phone: phone.value,
+    price: price.value,
+    status: status.value,
+    createdAt: new Date()
+  });
+
+  form.reset();
+});
 
     function renderOrders() {
         table.innerHTML = "";
@@ -165,4 +177,5 @@
 
 </body>
 </html>
+
 
