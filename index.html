@@ -112,70 +112,77 @@
     </div>
 </div>
     
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
 <script>
-    
-    const firebaseConfig = {
-  apiKey: "AIzaSyDeYARXyQU70vN5wIXCNBYlc1NLv_YutCQ",
-  authDomain: "qaramyan-fashion-studio-30dcc.firebaseapp.com",
-  projectId: "qaramyan-fashion-studio-30dcc",
-  storageBucket: "qaramyan-fashion-studio-30dcc.firebasestorage.app",
-  messagingSenderId: "841998182362",
-  appId: "1:841998182362:web:94ce4bbc079a7ceb8c42e3"
-};
-    const form = document.getElementById("orderForm");
-    const table = document.getElementById("ordersTable");
+  // Firebase կոնֆիգ
+  const firebaseConfig = {
+    apiKey: "AIzaSyDeYARXyQU70vN5wIXCNBYlc1NLv_YutCQ",
+    authDomain: "qaramyan-fashion-studio-30dcc.firebaseapp.com",
+    projectId: "qaramyan-fashion-studio-30dcc",
+    storageBucket: "qaramyan-fashion-studio-30dcc.appspot.com",
+    messagingSenderId: "841998182362",
+    appId: "1:841998182362:web:94ce4bbc079a7ceb8c42e3"
+  };
 
-    form.addEventListener("submit", e => {
-  e.preventDefault();
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-  db.collection("orders").add({
-    name: name.value,
-    phone: phone.value,
-    price: price.value,
-    status: status.value,
-    createdAt: new Date()
+  const form = document.getElementById("orderForm");
+  const table = document.getElementById("ordersTable");
+
+  let orders = []; // Սկզբնական զանգված
+
+  function renderOrders() {
+      table.innerHTML = "";
+      orders.forEach(order => {
+          table.innerHTML += `
+              <tr>
+                  <td>${order.name}</td>
+                  <td>${order.phone}</td>
+                  <td>${order.price} ֏</td>
+                  <td class="${order.status}">${order.status === "ready" ? "Պատրաստ է" : "Պատրաստ չէ"}</td>
+              </tr>
+          `;
+      });
+  }
+
+  // Կարդալ Firestore-ից առկա պատվերները երբ էջը բացվի
+  db.collection("orders").orderBy("createdAt", "asc").get().then(snapshot => {
+      snapshot.forEach(doc => {
+          orders.push(doc.data());
+      });
+      renderOrders();
   });
 
-  form.reset();
-});
+  form.addEventListener("submit", async e => {
+      e.preventDefault();
 
-    function renderOrders() {
-        table.innerHTML = "";
-        orders.forEach(order => {
-            table.innerHTML += `
-                <tr>
-                    <td>${order.name}</td>
-                    <td>${order.phone}</td>
-                    <td>${order.price} ֏</td>
-                    <td class="${order.status}">
-                        ${order.status === "ready" ? "Պատրաստ է" : "Պատրաստ չէ"}
-                    </td>
-                </tr>
-            `;
-        });
-    }
+      const order = {
+          name: document.getElementById("name").value,
+          phone: document.getElementById("phone").value,
+          price: document.getElementById("price").value,
+          status: document.getElementById("status").value,
+          createdAt: new Date()
+      };
 
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-        const order = {
-            name: name.value,
-            phone: phone.value,
-            price: price.value,
-            status: status.value
-        };
-        orders.push(order);
-        localStorage.setItem("orders", JSON.stringify(orders));
-        renderOrders();
-        form.reset();
-    });
+      try {
+          // Add to Firestore
+          await db.collection("orders").add(order);
 
-    renderOrders();
+          // Add to local array and render
+          orders.push(order);
+          renderOrders();
+
+          form.reset();
+      } catch (err) {
+          console.error("Error adding document: ", err);
+      }
+  });
 </script>
 
 </body>
 </html>
-
-
