@@ -23,21 +23,27 @@
             flex-grow: 1;
         }
 
-        .logo { text-align:center; }
-        .logo img { max-width: 200px; margin-bottom: 10px; }
+        /* Լոգոյի շտկված հատվածը */
+        .logo { text-align: center; margin-top: 10px; }
+        .logo img { 
+            max-width: 180px; 
+            height: auto; 
+            display: inline-block;
+        }
         
         h1 { text-align:center; color: #1a1a1a; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 22px; }
 
-        /* Ամսական հաշվետվության կոճակ և բաժին */
-        .report-wrapper { text-align: right; margin-bottom: 15px; }
-        .btn-report { background: #000; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .report-wrapper { position: absolute; top: 20px; right: 20px; }
+        .btn-report { background: #000; color: #fff; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12px; }
+        
         #monthlyStats { 
             display: none; 
             background: #fff3cd; 
             padding: 20px; 
             border: 1px solid #ffeeba; 
             border-radius: 10px; 
-            margin-bottom: 20px; 
+            margin: 20px auto;
+            max-width: 600px;
             animation: fadeIn 0.5s;
         }
 
@@ -55,7 +61,6 @@
         }
 
         input, select, button { padding: 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; }
-        
         .btn-add { grid-column: 1 / -1; background: black; color: white; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
 
         .filter-section { 
@@ -97,17 +102,17 @@
         <button class="btn-report" onclick="showMonthlyReport()">📊 Ամսական Հաշվետվություն</button>
     </div>
 
-    <div id="monthlyStats">
-        <h3 style="margin-top:0;">📈 Ամսական Ամփոփագիր (Ընթացիկ ամիս)</h3>
-        <div id="monthlyReportContent" class="monthly-report-grid"></div>
-        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:10px; background:#333; color:#fff; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Փակել</button>
-    </div>
-
     <div class="logo">
-        <img src="AnQar.png" alt="AnQar Fashion Studio">
+        <img src="logo.png" alt="AnQar Fashion Studio">
     </div>
 
     <h1>AnQar Fashion Studio</h1>
+
+    <div id="monthlyStats">
+        <h3 style="margin-top:0; text-align: center;">📈 Ամսական Ամփոփագիր</h3>
+        <div id="monthlyReportContent" class="monthly-report-grid"></div>
+        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width: 100%; background:#333; color:#fff; border:none; padding:10px; cursor:pointer; border-radius:4px;">ՓԱԿԵԼ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆԸ</button>
+    </div>
 
     <div class="controls-section">
         <form id="orderForm">
@@ -125,7 +130,7 @@
         <div class="filter-section">
             <span style="font-weight:bold; text-align:center;">📅 Օրվա Հաշվետվություն</span>
             <input type="date" id="filterDate" style="margin-top:10px;">
-            <button onclick="clearFilter()" style="margin-top:10px; background:#333; color:#fff; cursor:pointer;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
+            <button onclick="clearFilter()" style="margin-top:10px; background:#333; color:#fff; cursor:pointer; font-weight: bold; border-radius: 4px; border: none; padding: 10px;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
             <div id="filterStatus"></div>
         </div>
     </div>
@@ -197,33 +202,28 @@ function renderOrders(dataToRender) {
     });
 }
 
-// Գաղտնաբառով հաշվետվություն
 function showMonthlyReport() {
     const password = prompt("Մուտքագրեք գաղտնաբառը՝ հաշվետվությունը տեսնելու համար.");
     if (password === "AnQar2024") {
         const now = new Date();
-        const currentMonth = now.toISOString().substring(0, 7); // Օրինակ՝ "2024-05"
-        
+        const currentMonth = now.toISOString().substring(0, 7); 
         const monthlyOrders = allOrders.filter(o => o.date.startsWith(currentMonth));
-        
-        const count = monthlyOrders.length;
         const total = monthlyOrders.reduce((sum, o) => sum + Number(o.price), 0);
         const ready = monthlyOrders.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price), 0);
         const notReady = monthlyOrders.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price), 0);
 
         document.getElementById("monthlyReportContent").innerHTML = `
-            <div class="stat-line"><span>Այս ամսվա պատվերներ՝</span> <span class="stat-val">${count} հատ</span></div>
-            <div class="stat-line"><span>Ընդհանուր շրջանառություն՝</span> <span class="stat-val">${total.toLocaleString()} ֏</span></div>
-            <div class="stat-line"><span>Վճարված (Պատրաստի)՝</span> <span class="stat-val stat-ready">${ready.toLocaleString()} ֏</span></div>
-            <div class="stat-line"><span>Դեռ ստացվելիք (Չպատրաստ)՝</span> <span class="stat-val stat-not-ready">${notReady.toLocaleString()} ֏</span></div>
+            <div class="stat-line"><span>Ամսվա քանակ՝</span> <span class="stat-val">${monthlyOrders.length} հատ</span></div>
+            <div class="stat-line"><span>Ընդհանուր՝</span> <span class="stat-val">${total.toLocaleString()} ֏</span></div>
+            <div class="stat-line"><span>Պատրաստի (Վճարված)՝</span> <span class="stat-val stat-ready">${ready.toLocaleString()} ֏</span></div>
+            <div class="stat-line"><span>Ընթացքի մեջ (Ստացվելիք)՝</span> <span class="stat-val stat-not-ready">${notReady.toLocaleString()} ֏</span></div>
         `;
         document.getElementById("monthlyStats").style.display = "block";
-    } else {
+    } else if (password !== null) {
         alert("Սխալ գաղտնաբառ:");
     }
 }
 
-// Մնացած ֆունկցիաները (Ավելացնել, Ֆիլտրել, Ջնջել)
 document.getElementById("orderForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const newOrder = {
