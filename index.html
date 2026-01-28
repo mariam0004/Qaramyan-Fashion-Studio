@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnQar Fashion Studio - Management</title>
     <style>
-        /* Ամբողջ էկրանով տարբերակ */
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             background: #f0f2f5; 
@@ -18,97 +17,92 @@
 
         .container { 
             width: 100%; 
-            max-width: 100%; 
             background: white; 
-            padding: 30px; 
+            padding: 20px; 
             box-sizing: border-box; 
             flex-grow: 1;
         }
 
-        h1 { text-align:center; color: #1a1a1a; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
-        
         .logo { text-align:center; }
-        .logo img { max-width: 250px; margin-bottom: 15px; }
+        .logo img { max-width: 200px; margin-bottom: 10px; }
         
-        .controls-section { 
-            display: flex; 
-            gap: 20px; 
-            margin-bottom: 30px; 
-            flex-wrap: wrap; 
+        h1 { text-align:center; color: #1a1a1a; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 22px; }
+
+        /* Ամսական հաշվետվության կոճակ և բաժին */
+        .report-wrapper { text-align: right; margin-bottom: 15px; }
+        .btn-report { background: #000; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        #monthlyStats { 
+            display: none; 
+            background: #fff3cd; 
+            padding: 20px; 
+            border: 1px solid #ffeeba; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            animation: fadeIn 0.5s;
         }
+
+        .controls-section { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
         
-        /* Ֆորմայի բաժին */
         form { 
             flex: 2; 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
             gap: 12px; 
             background: #f9f9f9; 
-            padding: 25px; 
+            padding: 20px; 
             border-radius: 12px; 
             border: 1px solid #eee; 
         }
 
-        input, select, button { padding: 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 6px; }
+        input, select, button { padding: 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; }
         
-        .btn-add { 
-            grid-column: 1 / -1; 
-            background: black; 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            transition: 0.3s;
-        }
-        .btn-add:hover { background: #333; }
+        .btn-add { grid-column: 1 / -1; background: black; color: white; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
 
-        /* Բաց մոխրագույն Ֆիլտրի բաժին */
         .filter-section { 
             flex: 1;
             background: #f4f4f4; 
-            padding: 25px; 
+            padding: 20px; 
             border-radius: 12px; 
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
             min-width: 280px;
             border: 1px solid #ddd;
         }
 
-        .filter-title { font-weight: bold; margin-bottom: 12px; color: #333; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-        #filterDate { width: 100%; margin-bottom: 12px; background: white; border: 1px solid #ccc; cursor: pointer; }
-        .btn-clear-filter { width: 100%; background: #333; color: white; border: none; padding: 10px; font-weight: bold; cursor: pointer; border-radius: 4px; }
-
-        /* Հաշվետվության տողեր */
-        #filterStatus { font-size: 14px; margin-top: 15px; color: #333; text-align: left; width: 100%; line-height: 2; border-top: 1px solid #ccc; padding-top: 12px; }
+        #filterStatus, .monthly-report-grid { font-size: 14px; margin-top: 15px; color: #333; line-height: 2; border-top: 1px solid #ccc; padding-top: 10px; }
         .stat-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; }
         .stat-val { font-weight: bold; }
         .stat-ready { color: #28a745; }
         .stat-not-ready { color: #dc3545; }
 
-        /* Աղյուսակ */
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; }
-        th, td { border: 1px solid #dee2e6; padding: 15px; text-align: center; }
-        th { background: #212529; color: #fff; text-transform: uppercase; font-size: 13px; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: center; }
+        th { background: #212529; color: #fff; font-size: 12px; }
         
-        .status-select { font-weight: bold; border: 1px solid #eee; background: transparent; cursor: pointer; padding: 6px; border-radius: 4px; }
-        .ready { color: #28a745; border-color: #28a745; }
-        .not-ready { color: #dc3545; border-color: #dc3545; }
+        .status-select { font-weight: bold; border: 1px solid #eee; background: transparent; cursor: pointer; padding: 5px; border-radius: 4px; }
+        .ready { color: #28a745; }
+        .not-ready { color: #dc3545; }
         
-        .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 6px 12px; cursor: pointer; border-radius: 4px; transition: 0.2s; }
-        .delete-btn:hover { background: #dc3545; color: white; }
+        .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        .btn-clear-all { margin-top: 30px; background: #d9534f; color: white; border: none; width: 100%; cursor: pointer; padding: 15px; border-radius: 8px; font-weight: bold; }
 
-        .btn-clear-all { margin-top: 30px; background: #d9534f; color: white; border: none; width: 100%; cursor: pointer; padding: 15px; border-radius: 8px; font-size: 15px; font-weight: bold; text-transform: uppercase; }
-
-        .info { margin-top: 40px; text-align: center; font-size: 14px; color: #777; border-top: 1px solid #eee; padding-top: 25px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="report-wrapper">
+        <button class="btn-report" onclick="showMonthlyReport()">📊 Ամսական Հաշվետվություն</button>
+    </div>
+
+    <div id="monthlyStats">
+        <h3 style="margin-top:0;">📈 Ամսական Ամփոփագիր (Ընթացիկ ամիս)</h3>
+        <div id="monthlyReportContent" class="monthly-report-grid"></div>
+        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:10px; background:#333; color:#fff; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Փակել</button>
+    </div>
+
     <div class="logo">
         <img src="AnQar.png" alt="AnQar Fashion Studio">
     </div>
@@ -129,9 +123,9 @@
         </form>
 
         <div class="filter-section">
-            <span class="filter-title">📅 Օրվա Հաշվետվություն</span>
-            <input type="date" id="filterDate">
-            <button class="btn-clear-filter" onclick="clearFilter()">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
+            <span style="font-weight:bold; text-align:center;">📅 Օրվա Հաշվետվություն</span>
+            <input type="date" id="filterDate" style="margin-top:10px;">
+            <button onclick="clearFilter()" style="margin-top:10px; background:#333; color:#fff; cursor:pointer;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
             <div id="filterStatus"></div>
         </div>
     </div>
@@ -153,10 +147,6 @@
     </div>
 
     <button id="clearOrders" class="btn-clear-all">Մաքրել բոլոր պատվերները</button>
-
-    <div class="info">
-        📍 Adonc 6/1 Երազ բնակելի թաղամաս | 📷 Instagram: qaramyan_fashion | 📞 098-14-81-14
-    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -178,6 +168,13 @@ const db = firebase.firestore();
 document.getElementById('orderDate').valueAsDate = new Date();
 let allOrders = [];
 
+async function loadData() {
+    const snapshot = await db.collection("orders").orderBy("date", "desc").get();
+    allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderOrders(allOrders);
+}
+loadData();
+
 function renderOrders(dataToRender) {
     const tableBody = document.getElementById("ordersTable");
     tableBody.innerHTML = "";
@@ -194,19 +191,39 @@ function renderOrders(dataToRender) {
                         <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Պատրաստ է</option>
                     </select>
                 </td>
-                <td><button class="delete-btn" onclick="deleteOrder('${order.id}')">Ջնջել</button></td>
+                <td><button class="delete-btn" onclick="deleteOrder('${order.id}')">✕</button></td>
             </tr>
         `;
     });
 }
 
-async function loadData() {
-    const snapshot = await db.collection("orders").orderBy("date", "desc").get();
-    allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    renderOrders(allOrders);
-}
-loadData();
+// Գաղտնաբառով հաշվետվություն
+function showMonthlyReport() {
+    const password = prompt("Մուտքագրեք գաղտնաբառը՝ հաշվետվությունը տեսնելու համար.");
+    if (password === "AnQar2024") {
+        const now = new Date();
+        const currentMonth = now.toISOString().substring(0, 7); // Օրինակ՝ "2024-05"
+        
+        const monthlyOrders = allOrders.filter(o => o.date.startsWith(currentMonth));
+        
+        const count = monthlyOrders.length;
+        const total = monthlyOrders.reduce((sum, o) => sum + Number(o.price), 0);
+        const ready = monthlyOrders.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price), 0);
+        const notReady = monthlyOrders.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price), 0);
 
+        document.getElementById("monthlyReportContent").innerHTML = `
+            <div class="stat-line"><span>Այս ամսվա պատվերներ՝</span> <span class="stat-val">${count} հատ</span></div>
+            <div class="stat-line"><span>Ընդհանուր շրջանառություն՝</span> <span class="stat-val">${total.toLocaleString()} ֏</span></div>
+            <div class="stat-line"><span>Վճարված (Պատրաստի)՝</span> <span class="stat-val stat-ready">${ready.toLocaleString()} ֏</span></div>
+            <div class="stat-line"><span>Դեռ ստացվելիք (Չպատրաստ)՝</span> <span class="stat-val stat-not-ready">${notReady.toLocaleString()} ֏</span></div>
+        `;
+        document.getElementById("monthlyStats").style.display = "block";
+    } else {
+        alert("Սխալ գաղտնաբառ:");
+    }
+}
+
+// Մնացած ֆունկցիաները (Ավելացնել, Ֆիլտրել, Ջնջել)
 document.getElementById("orderForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const newOrder = {
@@ -220,29 +237,23 @@ document.getElementById("orderForm").addEventListener("submit", async (e) => {
     const docRef = await db.collection("orders").add(newOrder);
     allOrders.unshift({ id: docRef.id, ...newOrder });
     renderOrders(allOrders);
-    if(document.getElementById("filterDate").value === newOrder.date) {
-        document.getElementById("filterDate").dispatchEvent(new Event('change'));
-    }
     e.target.reset();
     document.getElementById('orderDate').valueAsDate = new Date();
 });
 
 document.getElementById("filterDate").addEventListener("change", (e) => {
     const selectedDate = e.target.value;
-    if(!selectedDate) return;
     const filtered = allOrders.filter(order => order.date === selectedDate);
     renderOrders(filtered);
-    
-    const count = filtered.length;
-    const totalSum = filtered.reduce((sum, order) => sum + Number(order.price), 0);
-    const readySum = filtered.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price), 0);
-    const notReadySum = filtered.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price), 0);
+    const total = filtered.reduce((sum, o) => sum + Number(o.price), 0);
+    const ready = filtered.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price), 0);
+    const notReady = filtered.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price), 0);
 
     document.getElementById("filterStatus").innerHTML = `
-        <div class="stat-line"><span>Քանակ՝</span> <span class="stat-val">${count} հատ</span></div>
-        <div class="stat-line"><span>Ընդհանուր՝</span> <span class="stat-val">${totalSum.toLocaleString()} ֏</span></div>
-        <div class="stat-line"><span>Պատրաստի՝</span> <span class="stat-val stat-ready">${readySum.toLocaleString()} ֏</span></div>
-        <div class="stat-line"><span>Պատրաստ չէ՝</span> <span class="stat-val stat-not-ready">${notReadySum.toLocaleString()} ֏</span></div>
+        <div class="stat-line"><span>Օրվա քանակ՝</span> <span class="stat-val">${filtered.length}</span></div>
+        <div class="stat-line"><span>Օրվա ընդհանուր՝</span> <span class="stat-val">${total.toLocaleString()} ֏</span></div>
+        <div class="stat-line"><span>Պատրաստի՝</span> <span class="stat-val stat-ready">${ready.toLocaleString()} ֏</span></div>
+        <div class="stat-line"><span>Պատրաստ չէ՝</span> <span class="stat-val stat-not-ready">${notReady.toLocaleString()} ֏</span></div>
     `;
 });
 
@@ -253,43 +264,32 @@ function clearFilter() {
 }
 
 async function updateStatus(id, newStatus) {
-    try {
-        await db.collection("orders").doc(id).update({ status: newStatus });
-        const order = allOrders.find(o => o.id === id);
-        if(order) {
-            order.status = newStatus;
-            const filterInput = document.getElementById("filterDate");
-            if(filterInput.value) {
-                filterInput.dispatchEvent(new Event('change'));
-            } else {
-                renderOrders(allOrders);
-            }
-        }
-    } catch(e) { alert("Սխալ թարմացման ժամանակ"); }
+    await db.collection("orders").doc(id).update({ status: newStatus });
+    const order = allOrders.find(o => o.id === id);
+    if(order) order.status = newStatus;
+    if(document.getElementById("filterDate").value) {
+        document.getElementById("filterDate").dispatchEvent(new Event('change'));
+    } else {
+        renderOrders(allOrders);
+    }
 }
 
 async function deleteOrder(id) {
     if(confirm("Ջնջե՞լ պատվերը:")) {
         await db.collection("orders").doc(id).delete();
         allOrders = allOrders.filter(o => o.id !== id);
-        const filterInput = document.getElementById("filterDate");
-        if(filterInput.value) {
-            filterInput.dispatchEvent(new Event('change'));
-        } else {
-            renderOrders(allOrders);
-        }
+        renderOrders(allOrders);
     }
 }
 
 document.getElementById("clearOrders").addEventListener("click", async () => {
-    if(confirm("ԶԳՈՒՇԱՑՈՒՄ: Բոլոր պատվերները կջնջվեն անդառնալի:")) {
+    if(confirm("Բոլոր պատվերները կջնջվեն:")) {
         const snapshot = await db.collection("orders").get();
         const batch = db.batch();
         snapshot.docs.forEach(doc => batch.delete(doc.ref));
         await batch.commit();
         allOrders = [];
         renderOrders(allOrders);
-        document.getElementById("filterStatus").innerHTML = "";
     }
 });
 </script>
