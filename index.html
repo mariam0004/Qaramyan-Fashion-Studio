@@ -11,10 +11,8 @@
         .logo { text-align:center; }
         .logo img { max-width:200px; margin-bottom: 15px; }
         
-        /* Կառավարման վահանակ */
         .controls-section { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
         
-        /* Ֆորման */
         form { flex: 2; display:grid; grid-template-columns: 1fr 1fr; gap:12px; background: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #eee; min-width: 300px; }
         input, select, button { padding:10px; font-size:15px; border: 1px solid #ccc; border-radius:6px; }
         .btn-add { grid-column: span 2; background:black; color:white; border:none; cursor:pointer; font-weight: bold; text-transform: uppercase; }
@@ -23,24 +21,27 @@
         /* Բաց մոխրագույն ֆիլտրի բաժին */
         .filter-section { 
             flex: 1;
-            background: #f4f4f4; /* Շատ բաց մոխրագույն */
+            background: #f4f4f4; 
             padding: 20px; 
             border-radius: 8px; 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-width: 220px;
-            max-width: 280px;
+            min-width: 250px;
+            max-width: 300px;
             border: 1px solid #ddd;
         }
         .filter-title { font-weight: bold; margin-bottom: 12px; color: #333; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
         #filterDate { width: 100%; margin-bottom: 12px; background: white; color: black; border: 1px solid #ccc; text-align: center; cursor: pointer; }
         .btn-clear-filter { width: 100%; background: #333; color: white; border: none; padding: 10px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
-        .btn-clear-filter:hover { background: #000; }
-        #filterStatus { font-size: 12px; margin-top: 10px; color: #555; text-align: center; line-height: 1.4; }
+        
+        /* Հաշվետվության ոճը ֆիլտրի մեջ */
+        #filterStatus { font-size: 13px; margin-top: 12px; color: #333; text-align: left; width: 100%; line-height: 1.6; border-top: 1px solid #ccc; padding-top: 10px; }
+        .stat-line { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .stat-val { font-weight: bold; color: #000; }
+        .stat-ready { color: #28a745; }
 
-        /* Աղյուսակ */
         table { width:100%; margin-top:20px; border-collapse:collapse; background: white; overflow: hidden; border-radius: 8px; }
         th, td { border:1px solid #dee2e6; padding:12px; text-align:center; }
         th { background:#212529; color:#fff; font-size: 14px; }
@@ -49,12 +50,9 @@
         .ready { color: #28a745; border-color: #28a745; }
         .not-ready { color: #dc3545; border-color: #dc3545; }
         
-        .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; transition: 0.3s; }
-        .delete-btn:hover { background: #dc3545; color: white; }
+        .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
 
-        /* Կարմիր կոճակ բոլորը ջնջելու համար */
-        .btn-clear-all { margin-top:25px; background:#d9534f; color:white; border:none; width: 100%; cursor: pointer; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
-        .btn-clear-all:hover { background: #c9302c; }
+        .btn-clear-all { margin-top:25px; background:#d9534f; color:white; border:none; width: 100%; cursor: pointer; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: bold; text-transform: uppercase; }
         
         .info { margin-top:30px; text-align:center; font-size:13px; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
@@ -82,10 +80,10 @@
         </form>
 
         <div class="filter-section">
-            <span class="filter-title">📅 Ֆիլտրել ըստ օրվա</span>
+            <span class="filter-title">📅 Օրվա Հաշվետվություն</span>
             <input type="date" id="filterDate">
-            <button class="btn-clear-filter" onclick="clearFilter()">ՏԵՍՆԵԼ ԲՈԼՈՐՈ</button>
-            <p id="filterStatus"></p>
+            <button class="btn-clear-filter" onclick="clearFilter()">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
+            <div id="filterStatus"></div>
         </div>
     </div>
 
@@ -175,17 +173,30 @@ document.getElementById("orderForm").addEventListener("submit", async (e) => {
     document.getElementById('orderDate').valueAsDate = new Date();
 });
 
+// Ֆիլտրման և հաշվարկի տրամաբանությունը
 document.getElementById("filterDate").addEventListener("change", (e) => {
     const selectedDate = e.target.value;
     const filtered = allOrders.filter(order => order.date === selectedDate);
     renderOrders(filtered);
-    const total = filtered.reduce((sum, order) => sum + Number(order.price), 0);
-    document.getElementById("filterStatus").innerHTML = `Պատվերներ՝ ${filtered.length}<br><b>Գումար՝ ${total.toLocaleString()} ֏</b>`;
+    
+    // Հաշվարկներ
+    const count = filtered.length;
+    const totalSum = filtered.reduce((sum, order) => sum + Number(order.price), 0);
+    const readySum = filtered
+        .filter(order => order.status === 'ready')
+        .reduce((sum, order) => sum + Number(order.price), 0);
+
+    // Ցուցադրում ֆիլտրի բլոկում
+    document.getElementById("filterStatus").innerHTML = `
+        <div class="stat-line"><span>Քանակ՝</span> <span class="stat-val">${count} հատ</span></div>
+        <div class="stat-line"><span>Ընդհանուր՝</span> <span class="stat-val">${totalSum.toLocaleString()} ֏</span></div>
+        <div class="stat-line"><span>Պատրաստի՝</span> <span class="stat-val stat-ready">${readySum.toLocaleString()} ֏</span></div>
+    `;
 });
 
 function clearFilter() {
     document.getElementById("filterDate").value = "";
-    document.getElementById("filterStatus").innerText = "";
+    document.getElementById("filterStatus").innerHTML = "";
     renderOrders(allOrders);
 }
 
@@ -193,8 +204,16 @@ async function updateStatus(id, newStatus) {
     try {
         await db.collection("orders").doc(id).update({ status: newStatus });
         const order = allOrders.find(o => o.id === id);
-        if(order) order.status = newStatus;
-        renderOrders(allOrders);
+        if(order) {
+            order.status = newStatus;
+            // Եթե ֆիլտրը միացված է, թարմացնում ենք հաշվարկը
+            const filterInput = document.getElementById("filterDate");
+            if(filterInput.value) {
+                filterInput.dispatchEvent(new Event('change'));
+            } else {
+                renderOrders(allOrders);
+            }
+        }
     } catch(e) { alert("Սխալ թարմացման ժամանակ"); }
 }
 
@@ -203,6 +222,9 @@ async function deleteOrder(id) {
         await db.collection("orders").doc(id).delete();
         allOrders = allOrders.filter(o => o.id !== id);
         renderOrders(allOrders);
+        // Թարմացնել հաշվարկը ջնջելուց հետո
+        const filterInput = document.getElementById("filterDate");
+        if(filterInput.value) filterInput.dispatchEvent(new Event('change'));
     }
 }
 
@@ -214,6 +236,7 @@ document.getElementById("clearOrders").addEventListener("click", async () => {
         await batch.commit();
         allOrders = [];
         renderOrders(allOrders);
+        document.getElementById("filterStatus").innerHTML = "";
     }
 });
 </script>
