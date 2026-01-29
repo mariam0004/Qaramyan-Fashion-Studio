@@ -28,17 +28,23 @@
         .studio-title { margin-top: 10px; font-size: 20px; letter-spacing: 5px; text-transform: uppercase; color: #000; }
 
         /* Ֆիլտրը վերևում */
-        .top-filter-box { background: #f1f3f5; padding: 8px 15px; border-radius: 8px; border: 1px solid #dee2e6; display: flex; align-items: center; gap: 10px; }
+        .top-filter-box { background: #f1f3f5; padding: 8px 15px; border-radius: 8px; border: 1px solid #dee2e6; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .top-filter-box label { font-size: 13px; font-weight: bold; color: #495057; }
         .top-filter-box input { border: 1px solid #ced4da; padding: 6px; border-radius: 4px; outline: none; }
 
         .btn-report { background: #000; color: #fff; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 12px; }
 
+        /* Վիճակագրության վիջեթ */
+        .quick-stats-container { display: flex; gap: 15px; font-size: 13px; border-left: 2px solid #ccc; padding-left: 15px; margin-left: 10px; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-label { font-size: 10px; color: #666; text-transform: uppercase; }
+        .stat-value { font-weight: bold; }
+
         /* Ֆորմայի դաշտեր */
         .form-section { width: 100%; margin-bottom: 30px; }
         form { 
             display: grid; 
-            grid-template-columns: 1.2fr 1.2fr 1fr 1fr 1fr 1fr; /* Հաճախորդը կարճացված է */
+            grid-template-columns: 1.2fr 1.2fr 1fr 1fr 1fr 1fr; 
             gap: 12px; 
             background: #ffffff; 
             padding: 20px; 
@@ -99,7 +105,9 @@
                 <label>📅 ՖԻԼՏՐ</label>
                 <input type="date" id="filterDate" onchange="filterByDate()">
                 <button onclick="clearFilter()" style="border:none; background:none; cursor:pointer; font-size:11px; text-decoration:underline;">Բոլորը</button>
-                <span id="quickStats" style="margin-left:10px; font-weight:bold; color:#000; border-left:1px solid #ccc; padding-left:10px;"></span>
+                
+                <div id="quickStats" class="quick-stats-container">
+                    </div>
             </div>
         </div>
 
@@ -194,6 +202,7 @@ async function loadData() {
     const snapshot = await db.collection("orders").orderBy("date", "desc").get();
     allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     renderOrders(allOrders);
+    updateQuickStats(allOrders); // Սկզբնական վիճակագրություն
 }
 loadData();
 
@@ -227,17 +236,45 @@ async function updateField(id, field, value) {
     filterByDate();
 }
 
+// Հիմնական փոփոխությունը այստեղ է
+function updateQuickStats(filteredData) {
+    const readyItems = filteredData.filter(o => o.status === 'ready');
+    const notReadyItems = filteredData.filter(o => o.status === 'not-ready');
+
+    const readyCount = readyItems.length;
+    const readySum = readyItems.reduce((sum, o) => sum + Number(o.price || 0), 0);
+
+    const notReadyCount = notReadyItems.length;
+    const notReadySum = notReadyItems.reduce((sum, o) => sum + Number(o.price || 0), 0);
+
+    const totalSum = readySum + notReadySum;
+
+    document.getElementById("quickStats").innerHTML = `
+        <div class="stat-item">
+            <span class="stat-label">Պատրաստ (քանակ/գումար)</span>
+            <span class="stat-value" style="color:#2ecc71;">${readyCount} հատ / ${readySum.toLocaleString()} ֏</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Պատրաստ չէ (քանակ/գումար)</span>
+            <span class="stat-value" style="color:#e74c3c;">${notReadyCount} հատ / ${notReadySum.toLocaleString()} ֏</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Ընդհանուր գումար</span>
+            <span class="stat-value" style="color:#000; border-bottom: 2px solid #000;">${totalSum.toLocaleString()} ֏</span>
+        </div>
+    `;
+}
+
 function filterByDate() {
     const selectedDate = document.getElementById("filterDate").value;
     if(!selectedDate) {
         renderOrders(allOrders);
-        document.getElementById("quickStats").innerHTML = "";
+        updateQuickStats(allOrders);
         return;
     }
     const filtered = allOrders.filter(o => o.date === selectedDate);
     renderOrders(filtered);
-    const total = filtered.reduce((sum, o) => sum + Number(o.price || 0), 0);
-    document.getElementById("quickStats").innerHTML = `${total.toLocaleString()} ֏`;
+    updateQuickStats(filtered); // Թարմացնել վիճակագրությունը ըստ ֆիլտրի
 }
 
 function clearFilter() {
@@ -298,6 +335,7 @@ document.getElementById("clearOrders").addEventListener("click", async () => {
         await batch.commit();
         allOrders = [];
         renderOrders(allOrders);
+        updateQuickStats([]);
     }
 });
 </script>
