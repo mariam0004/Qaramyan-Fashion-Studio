@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnQar Fashion Studio - Full System</title>
+    <title>AnQar Fashion Studio - Full Width System</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f4f9; margin: 0; padding: 0; }
         
-        /* Հիմնական կոնտեյները՝ ամբողջ լայնությամբ */
-        .container { width: 100%; padding: 20px; box-sizing: border-box; min-height: 100vh; }
+        .container { width: 98%; margin: 10px auto; background: white; padding: 20px; box-sizing: border-box; min-height: 100vh; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
         
-        /* Հեդեր */
-        .header-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; position: relative; width: 100%; }
-        .logo img { max-width: 150px; height: auto; margin-bottom: 10px; }
-        h1 { margin: 0; color: #111; text-transform: uppercase; letter-spacing: 4px; font-size: 26px; }
-        
-        .report-wrapper { position: absolute; top: 10px; right: 20px; }
-        .btn-report { background: #000; color: #fff; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; }
-
-        /* Մուտքագրման բլոկ՝ ամբողջ լայնությամբ */
-        .form-container { width: 100%; margin-bottom: 30px; }
-        
-        form { 
-            width: 100%;
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-            gap: 20px; 
-            background: #ffffff; 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            border: 1px solid #eee;
-            box-sizing: border-box;
+        /* Վերևի պանել (Header) */
+        .top-panel { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 25px; 
+            padding-bottom: 15px; 
+            border-bottom: 2px solid #eee;
         }
 
-        .input-group { display: flex; flex-direction: column; gap: 10px; }
-        .input-group label { font-size: 14px; color: #444; font-weight: 600; }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .logo-section img { max-width: 100px; height: auto; }
+        .logo-section h1 { margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Ֆիլտրը վերևի պանելում */
+        .top-filter { display: flex; align-items: center; gap: 10px; background: #f9f9f9; padding: 10px 20px; border-radius: 10px; border: 1px solid #ddd; }
+        .top-filter label { font-weight: bold; font-size: 14px; }
+        .top-filter input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+
+        .btn-report { background: #000; color: #fff; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+
+        /* Մուտքագրման ֆորմա - Երկար դաշտեր */
+        .form-section { margin-bottom: 30px; }
+        form { 
+            display: grid; 
+            grid-template-columns: 2fr 1.5fr 1fr 1.2fr 1.2fr 1fr; 
+            gap: 15px; 
+            background: #fff; 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid #eee;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { font-size: 13px; color: #555; font-weight: 600; }
         
         input, select { 
             padding: 14px; 
@@ -50,70 +59,70 @@
             grid-column: 1 / -1; 
             background: #000; 
             color: #fff; 
-            padding: 18px; 
+            padding: 16px; 
             border: none; 
             cursor: pointer; 
             font-weight: bold; 
             text-transform: uppercase; 
             border-radius: 8px; 
+            margin-top: 10px;
             font-size: 16px;
-            letter-spacing: 2px;
-            transition: 0.3s;
         }
-        .btn-add:hover { background: #333; }
 
-        /* Ֆիլտրի հատված */
-        .daily-filter-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
-        .filter-section { width: 100%; max-width: 500px; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #ddd; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-
-        /* Աղյուսակ՝ ամբողջ լայնությամբ */
-        .table-responsive { width: 100%; overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
-        th { background: #1a1a1a; color: #fff; padding: 18px; font-size: 13px; text-transform: uppercase; text-align: center; }
-        td { border-bottom: 1px solid #eee; padding: 15px; text-align: center; }
+        /* Աղյուսակ */
+        .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th { background: #212529; color: #fff; padding: 15px; font-size: 13px; text-transform: uppercase; }
+        td { border-bottom: 1px solid #eee; padding: 12px; text-align: center; }
         
-        .edit-input { width: 95%; padding: 10px; border: 1px solid #eee; border-radius: 6px; text-align: center; font-size: 14px; background: #fafafa; }
-        .edit-input:focus { border-color: #000; background: #fff; outline: none; }
+        .edit-input { width: 95%; padding: 8px; border: 1px solid #eee; border-radius: 5px; text-align: center; font-size: 14px; }
 
-        .status-select { font-weight: bold; padding: 10px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; width: 130px; }
-        .ready { color: #2ecc71; background: #f0fff4; border-color: #2ecc71; }
-        .not-ready { color: #e74c3c; background: #fff5f5; border-color: #e74c3c; }
+        .status-select { font-weight: bold; padding: 8px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; }
+        .ready { color: #2ecc71; background: #f0fff4; }
+        .not-ready { color: #e74c3c; background: #fff5f5; }
         
-        .delete-btn { color: #e74c3c; border: 1px solid #e74c3c; padding: 8px 15px; cursor: pointer; border-radius: 6px; background: none; transition: 0.2s; }
-        .delete-btn:hover { background: #e74c3c; color: white; }
+        .delete-btn { color: #e74c3c; border: 1px solid #e74c3c; padding: 5px 12px; cursor: pointer; border-radius: 6px; background: none; }
 
-        .btn-clear-all { margin-top: 40px; background: #e74c3c; color: white; border: none; width: 100%; padding: 20px; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .btn-clear-all { margin-top: 30px; background: #e74c3c; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-        #monthlyStats { display: none; background: #fff9db; padding: 30px; border: 1px solid #ffe066; border-radius: 12px; margin-bottom: 20px; width: 100%; box-sizing: border-box; }
-        .stat-line { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #fab005; font-size: 18px; }
+        #monthlyStats { display: none; background: #fff9db; padding: 20px; border: 1px solid #ffe066; border-radius: 12px; margin-bottom: 20px; }
+        .stat-line { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #fab005; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-area">
-        <div class="report-wrapper">
-            <button class="btn-report" onclick="showMonthlyReport()">📊 Ամսական Հաշվետվություն</button>
+    <div class="top-panel">
+        <div class="logo-section">
+            <img src="logo.png" alt="Logo">
+            <h1>AnQar Fashion</h1>
         </div>
-        <div class="logo"><img src="logo.png" alt="AnQar"></div>
-        <h1>AnQar Fashion Studio</h1>
+
+        <div class="top-filter">
+            <label>📅 Ֆիլտրել ըստ օրվա:</label>
+            <input type="date" id="filterDate" onchange="filterByDate()">
+            <button onclick="clearFilter()" style="padding: 8px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">Բոլորը</button>
+            <div id="quickStats" style="margin-left: 15px; font-weight: bold; font-size: 14px; color: #000;"></div>
+        </div>
+
+        <button class="btn-report" onclick="showMonthlyReport()">📊 Ամսական Հաշվետվություն</button>
     </div>
 
     <div id="monthlyStats">
-        <h3 style="margin-top:0; text-align:center; font-size: 22px;">📈 Ամսական Ամփոփագիր</h3>
+        <h3 style="margin-top:0; text-align:center;">📈 Ամսական Ամփոփագիր</h3>
         <div id="monthlyReportContent"></div>
-        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:20px; width:100%; background:#333; color:white; border:none; padding:12px; cursor:pointer; border-radius:6px; font-weight:bold;">ՓԱԿԵԼ</button>
+        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width:100%; background:#333; color:white; border:none; padding:10px; cursor:pointer; border-radius:5px;">ՓԱԿԵԼ</button>
     </div>
 
-    <div class="form-container">
+    <div class="form-section">
         <form id="orderForm">
             <div class="input-group">
-                <label>Հաճախորդի անուն</label>
-                <input type="text" id="name" placeholder="Անուն" required>
+                <label>Հաճախորդ</label>
+                <input type="text" id="name" placeholder="Անուն Ազգանուն" required>
             </div>
             <div class="input-group">
-                <label>Հեռախոսահամար</label>
-                <input type="tel" id="phone" placeholder="09x-xx-xx-xx">
+                <label>Հեռախոս</label>
+                <input type="tel" id="phone" placeholder="0xx-xx-xx-xx">
             </div>
             <div class="input-group">
                 <label>Արժեք (֏)</label>
@@ -138,15 +147,6 @@
         </form>
     </div>
 
-    <div class="daily-filter-wrapper">
-        <div class="filter-section">
-            <label style="font-weight: bold; display: block; margin-bottom: 15px; font-size: 16px;">🔍 Ֆիլտրել ըստ օրվա</label>
-            <input type="date" id="filterDate" style="width: 70%;">
-            <button onclick="clearFilter()" style="width:70%; padding:12px; background:#444; color:#fff; border:none; border-radius:6px; cursor:pointer; margin-top:10px; font-weight:bold;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
-            <div id="filterStatus" style="margin-top:20px;"></div>
-        </div>
-    </div>
-
     <div class="table-responsive">
         <table>
             <thead>
@@ -157,7 +157,7 @@
                     <th>Արժեք (֏)</th>
                     <th>Հանձնման օր</th>
                     <th>Կարգավիճակ</th>
-                    <th>Գործողություն</th>
+                    <th>Ջնջել</th>
                 </tr>
             </thead>
             <tbody id="ordersTable"></tbody>
@@ -219,12 +219,26 @@ async function updateField(id, field, value) {
     await db.collection("orders").doc(id).update({ [field]: value });
     const order = allOrders.find(o => o.id === id);
     if(order) order[field] = value;
-    refreshStats();
+    filterByDate(); 
 }
 
-function refreshStats() {
-    const filterInput = document.getElementById("filterDate");
-    if(filterInput.value) filterInput.dispatchEvent(new Event('change'));
+function filterByDate() {
+    const selectedDate = document.getElementById("filterDate").value;
+    if(!selectedDate) {
+        renderOrders(allOrders);
+        document.getElementById("quickStats").innerHTML = "";
+        return;
+    }
+    const filtered = allOrders.filter(o => o.date === selectedDate);
+    renderOrders(filtered);
+    
+    const total = filtered.reduce((sum, o) => sum + Number(o.price || 0), 0);
+    document.getElementById("quickStats").innerHTML = `Օրվա հասույթ: ${total.toLocaleString()} ֏`;
+}
+
+function clearFilter() {
+    document.getElementById("filterDate").value = "";
+    filterByDate();
 }
 
 document.getElementById("orderForm").addEventListener("submit", async (e) => {
@@ -240,31 +254,10 @@ document.getElementById("orderForm").addEventListener("submit", async (e) => {
     };
     const docRef = await db.collection("orders").add(newOrder);
     allOrders.unshift({ id: docRef.id, ...newOrder });
-    renderOrders(allOrders);
+    filterByDate();
     e.target.reset();
     document.getElementById('orderDate').valueAsDate = new Date();
 });
-
-document.getElementById("filterDate").addEventListener("change", (e) => {
-    const selectedDate = e.target.value;
-    const filtered = allOrders.filter(order => order.date === selectedDate);
-    renderOrders(filtered);
-    const total = filtered.reduce((sum, o) => sum + Number(o.price || 0), 0);
-    const ready = filtered.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
-    const notReady = filtered.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
-
-    document.getElementById("filterStatus").innerHTML = `
-        <div class="stat-line"><span>Օրվա ընդհանուր՝</span> <b>${total.toLocaleString()} ֏</b></div>
-        <div class="stat-line"><span>Պատրաստի՝</span> <b style="color:#2ecc71;">${ready.toLocaleString()} ֏</b></div>
-        <div class="stat-line"><span>Չպատրաստ՝</span> <b style="color:#e74c3c;">${notReady.toLocaleString()} ֏</b></div>
-    `;
-});
-
-function clearFilter() {
-    document.getElementById("filterDate").value = "";
-    document.getElementById("filterStatus").innerHTML = "";
-    renderOrders(allOrders);
-}
 
 function showMonthlyReport() {
     const password = prompt("Մուտքագրեք գաղտնաբառը.");
@@ -289,20 +282,9 @@ async function deleteOrder(id) {
     if(confirm("Ջնջե՞լ պատվերը:")) {
         await db.collection("orders").doc(id).delete();
         allOrders = allOrders.filter(o => o.id !== id);
-        renderOrders(allOrders);
+        filterByDate();
     }
 }
-
-document.getElementById("clearOrders").addEventListener("click", async () => {
-    if(confirm("Զգուշացում: Բոլոր պատվերները կջնջվեն:")) {
-        const snapshot = await db.collection("orders").get();
-        const batch = db.batch();
-        snapshot.docs.forEach(doc => batch.delete(doc.ref));
-        await batch.commit();
-        allOrders = [];
-        renderOrders(allOrders);
-    }
-});
 </script>
 </body>
 </html>
