@@ -3,90 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnQar Fashion Studio - Management</title>
+    <title>AnQar Fashion Studio</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        .container { width: 100%; background: white; padding: 20px; box-sizing: border-box; flex-grow: 1; }
-        .logo { text-align: center; margin-top: 10px; }
-        .logo img { max-width: 180px; height: auto; }
-        h1 { text-align:center; color: #1a1a1a; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 22px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+        .container { width: 100%; background: white; padding: 20px; box-sizing: border-box; min-height: 100vh; }
         
-        .report-wrapper { position: absolute; top: 20px; right: 20px; }
+        .header-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; position: relative; }
+        .logo img { max-width: 150px; height: auto; margin-bottom: 10px; }
+        h1 { margin: 0; color: #1a1a1a; text-transform: uppercase; letter-spacing: 2px; font-size: 20px; }
+        
+        .report-wrapper { position: absolute; top: 0; right: 0; }
         .btn-report { background: #000; color: #fff; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12px; }
         
-        #monthlyStats { display: none; background: #fff3cd; padding: 20px; border: 1px solid #ffeeba; border-radius: 10px; margin: 20px auto; max-width: 600px; animation: fadeIn 0.5s; }
+        #monthlyStats { display: none; background: #fff3cd; padding: 20px; border: 1px solid #ffeeba; border-radius: 10px; margin: 20px auto; max-width: 600px; }
+        
         .controls-section { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
         
-        form { flex: 2; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; background: #f9f9f9; padding: 20px; border-radius: 12px; border: 1px solid #eee; }
-        label { font-size: 11px; color: #666; margin-bottom: -8px; margin-left: 5px; }
-        input, select, button { padding: 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; }
-        .btn-add { grid-column: 1 / -1; background: black; color: white; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; margin-top: 5px; }
+        form { 
+            flex: 3; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 15px; 
+            background: #f9f9f9; 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid #eee; 
+            align-items: end;
+        }
 
-        .filter-section { flex: 1; background: #f4f4f4; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; min-width: 280px; border: 1px solid #ddd; }
-        #filterStatus, .monthly-report-grid { font-size: 14px; margin-top: 15px; color: #333; line-height: 2; border-top: 1px solid #ccc; padding-top: 10px; }
-        .stat-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; }
-        .stat-val { font-weight: bold; }
-        .stat-ready { color: #28a745; }
-        .stat-not-ready { color: #dc3545; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 11px; color: #666; font-weight: bold; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        
+        .btn-add { grid-column: 1 / -1; background: black; color: white; border: none; padding: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 6px; }
 
+        .filter-section { flex: 1; background: #f4f4f4; padding: 20px; border-radius: 12px; border: 1px solid #ddd; min-width: 250px; }
+        
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 20px; }
         table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: center; font-size: 13px; }
-        th { background: #212529; color: #fff; text-transform: uppercase; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: center; }
+        th { background: #212529; color: #fff; font-size: 12px; text-transform: uppercase; }
         
-        .status-select { font-weight: bold; border: 1px solid #eee; background: transparent; cursor: pointer; padding: 5px; border-radius: 4px; }
+        /* Խմբագրվող գումարի դաշտ */
+        .price-input { width: 80px; padding: 5px; border: 1px solid #eee; text-align: center; font-weight: bold; border-radius: 4px; }
+        .price-input:focus { border-color: #007bff; outline: none; background: #fff; }
+
+        .status-select { font-weight: bold; border: 1px solid #eee; padding: 5px; border-radius: 4px; cursor: pointer; }
         .ready { color: #28a745; }
         .not-ready { color: #dc3545; }
         
         .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-        .btn-clear-all { margin-top: 30px; background: #d9534f; color: white; border: none; width: 100%; cursor: pointer; padding: 15px; border-radius: 8px; font-weight: bold; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-clear-all { margin-top: 30px; background: #d9534f; color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        .stat-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; line-height: 2; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="report-wrapper">
-        <button class="btn-report" onclick="showMonthlyReport()">📊 Ամսական Հաշվետվություն</button>
+    <div class="header-area">
+        <div class="report-wrapper">
+            <button class="btn-report" onclick="showMonthlyReport()">📊 Ամսական Հաշվետվություն</button>
+        </div>
+        <div class="logo"><img src="logo.png" alt="AnQar"></div>
+        <h1>AnQar Fashion Studio</h1>
     </div>
-
-    <div class="logo">
-        <img src="logo.png" alt="AnQar Fashion Studio">
-    </div>
-
-    <h1>AnQar Fashion Studio</h1>
 
     <div id="monthlyStats">
-        <h3 style="margin-top:0; text-align: center;">📈 Ամսական Ամփոփագիր</h3>
-        <div id="monthlyReportContent" class="monthly-report-grid"></div>
-        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width: 100%; background:#333; color:#fff; border:none; padding:10px; cursor:pointer; border-radius:4px;">ՓԱԿԵԼ</button>
+        <h3 style="margin:0 0 10px 0; text-align:center;">📈 Ամսական Ամփոփագիր</h3>
+        <div id="monthlyReportContent"></div>
+        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width:100%; background:#333; color:white; border:none; padding:8px; cursor:pointer;">ՓԱԿԵԼ</button>
     </div>
 
     <div class="controls-section">
         <form id="orderForm">
-            <input type="text" id="name" placeholder="Հաճախորդի անուն" required>
-            <input type="tel" id="phone" placeholder="Հեռախոսահամար" required>
-            <input type="number" id="price" placeholder="Արժեք (֏)" required>
-            <div style="display:flex; flex-direction:column;">
+            <div class="input-group">
+                <label>Հաճախորդ</label>
+                <input type="text" id="name" placeholder="Անուն" required>
+            </div>
+            <div class="input-group">
+                <label>Հեռախոս</label>
+                <input type="tel" id="phone" placeholder="09x-xx-xx-xx">
+            </div>
+            <div class="input-group">
+                <label>Արժեք (֏)</label>
+                <input type="number" id="price" placeholder="Գումար">
+            </div>
+            <div class="input-group">
                 <label>Պատվերի օր</label>
                 <input type="date" id="orderDate" required>
             </div>
-            <div style="display:flex; flex-direction:column;">
+            <div class="input-group">
                 <label>Հանձնման օր</label>
-                <input type="date" id="deadlineDate" required>
+                <input type="date" id="deadlineDate">
             </div>
-            <select id="status" style="align-self: flex-end;">
-                <option value="not-ready">Պատրաստ չէ</option>
-                <option value="ready">Պատրաստ է</option>
-            </select>
-            <button type="submit" class="btn-add">Ավելացնել պատվերը</button>
+            <div class="input-group">
+                <label>Կարգավիճակ</label>
+                <select id="status">
+                    <option value="not-ready">Պատրաստ չէ</option>
+                    <option value="ready">Պատրաստ է</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-add">Ավելացնել Պատվերը</button>
         </form>
 
         <div class="filter-section">
-            <span style="font-weight:bold; text-align:center;">📅 Օրվա Հաշվետվություն</span>
-            <input type="date" id="filterDate" style="margin-top:10px;">
-            <button onclick="clearFilter()" style="margin-top:10px; background:#333; color:#fff; cursor:pointer; border:none; padding:10px; border-radius:4px;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
+            <label>🔍 Ֆիլտրել ըստ օրվա</label>
+            <input type="date" id="filterDate" style="width:100%; margin:10px 0;">
+            <button onclick="clearFilter()" style="width:100%; padding:8px; cursor:pointer;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
             <div id="filterStatus"></div>
         </div>
     </div>
@@ -98,7 +122,7 @@
                     <th>Պատվերի օր</th>
                     <th>Հաճախորդ</th>
                     <th>Հեռախոս</th>
-                    <th>Արժեք</th>
+                    <th>Արժեք (֏)</th>
                     <th>Հանձնման օր</th>
                     <th>Կարգավիճակ</th>
                     <th>Ջնջել</th>
@@ -123,7 +147,6 @@ const firebaseConfig = {
     messagingSenderId: "841998182362",
     appId: "1:841998182362:web:94ce4bbc079a7ceb8c42e3"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -145,9 +168,12 @@ function renderOrders(dataToRender) {
             <tr>
                 <td>${order.date}</td>
                 <td><b>${order.name}</b></td>
-                <td>${order.phone}</td>
-                <td>${Number(order.price).toLocaleString()} ֏</td>
-                <td style="color: #0056b3; font-weight: bold;">${order.deadline || 'Նշված չէ'}</td>
+                <td>${order.phone || '-'}</td>
+                <td>
+                    <input type="number" class="price-input" value="${order.price || ''}" 
+                    onchange="updatePrice('${order.id}', this.value)" placeholder="0">
+                </td>
+                <td style="color: #0056b3; font-weight: bold;">${order.deadline || '-'}</td>
                 <td>
                     <select onchange="updateStatus('${order.id}', this.value)" class="status-select ${order.status}">
                         <option value="not-ready" ${order.status === 'not-ready' ? 'selected' : ''}>Պատրաստ չէ</option>
@@ -160,24 +186,25 @@ function renderOrders(dataToRender) {
     });
 }
 
-function showMonthlyReport() {
-    const password = prompt("Մուտքագրեք գաղտնաբառը.");
-    if (password === "AnQar2024") {
-        const now = new Date();
-        const currentMonth = now.toISOString().substring(0, 7); 
-        const monthlyOrders = allOrders.filter(o => o.date.startsWith(currentMonth));
-        const total = monthlyOrders.reduce((sum, o) => sum + Number(o.price), 0);
-        const ready = monthlyOrders.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price), 0);
-        const notReady = monthlyOrders.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price), 0);
+async function updatePrice(id, newPrice) {
+    await db.collection("orders").doc(id).update({ price: newPrice });
+    const order = allOrders.find(o => o.id === id);
+    if(order) order.price = newPrice;
+    refreshStats();
+}
 
-        document.getElementById("monthlyReportContent").innerHTML = `
-            <div class="stat-line"><span>Ամսվա քանակ՝</span> <span class="stat-val">${monthlyOrders.length} հատ</span></div>
-            <div class="stat-line"><span>Ընդհանուր՝</span> <span class="stat-val">${total.toLocaleString()} ֏</span></div>
-            <div class="stat-line"><span>Պատրաստի (Վճարված)՝</span> <span class="stat-val stat-ready">${ready.toLocaleString()} ֏</span></div>
-            <div class="stat-line"><span>Ընթացքի մեջ (Ստացվելիք)՝</span> <span class="stat-val stat-not-ready">${notReady.toLocaleString()} ֏</span></div>
-        `;
-        document.getElementById("monthlyStats").style.display = "block";
-    } else if (password !== null) alert("Սխալ գաղտնաբառ:");
+async function updateStatus(id, newStatus) {
+    await db.collection("orders").doc(id).update({ status: newStatus });
+    const order = allOrders.find(o => o.id === id);
+    if(order) order.status = newStatus;
+    renderOrders(document.getElementById("filterDate").value ? 
+        allOrders.filter(o => o.date === document.getElementById("filterDate").value) : allOrders);
+    refreshStats();
+}
+
+function refreshStats() {
+    const filterInput = document.getElementById("filterDate");
+    if(filterInput.value) filterInput.dispatchEvent(new Event('change'));
 }
 
 document.getElementById("orderForm").addEventListener("submit", async (e) => {
@@ -202,15 +229,14 @@ document.getElementById("filterDate").addEventListener("change", (e) => {
     const selectedDate = e.target.value;
     const filtered = allOrders.filter(order => order.date === selectedDate);
     renderOrders(filtered);
-    const total = filtered.reduce((sum, o) => sum + Number(o.price), 0);
-    const ready = filtered.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price), 0);
-    const notReady = filtered.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price), 0);
+    const total = filtered.reduce((sum, o) => sum + Number(o.price || 0), 0);
+    const ready = filtered.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
+    const notReady = filtered.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
 
     document.getElementById("filterStatus").innerHTML = `
-        <div class="stat-line"><span>Օրվա քանակ՝</span> <span class="stat-val">${filtered.length}</span></div>
-        <div class="stat-line"><span>Օրվա ընդհանուր՝</span> <span class="stat-val">${total.toLocaleString()} ֏</span></div>
-        <div class="stat-line"><span>Պատրաստի՝</span> <span class="stat-val stat-ready">${ready.toLocaleString()} ֏</span></div>
-        <div class="stat-line"><span>Պատրաստ չէ՝</span> <span class="stat-val stat-not-ready">${notReady.toLocaleString()} ֏</span></div>
+        <div class="stat-line"><span>Ընդհանուր՝</span> <b>${total.toLocaleString()} ֏</b></div>
+        <div class="stat-line"><span>Պատրաստի՝</span> <b style="color:green;">${ready.toLocaleString()} ֏</b></div>
+        <div class="stat-line"><span>Չպատրաստ՝</span> <b style="color:red;">${notReady.toLocaleString()} ֏</b></div>
     `;
 });
 
@@ -220,13 +246,23 @@ function clearFilter() {
     renderOrders(allOrders);
 }
 
-async function updateStatus(id, newStatus) {
-    await db.collection("orders").doc(id).update({ status: newStatus });
-    const order = allOrders.find(o => o.id === id);
-    if(order) order.status = newStatus;
-    if(document.getElementById("filterDate").value) {
-        document.getElementById("filterDate").dispatchEvent(new Event('change'));
-    } else renderOrders(allOrders);
+function showMonthlyReport() {
+    const password = prompt("Մուտքագրեք գաղտնաբառը.");
+    if (password === "AnQar2024") {
+        const now = new Date();
+        const currentMonth = now.toISOString().substring(0, 7); 
+        const monthlyOrders = allOrders.filter(o => o.date.startsWith(currentMonth));
+        const total = monthlyOrders.reduce((sum, o) => sum + Number(o.price || 0), 0);
+        const ready = monthlyOrders.filter(o => o.status === 'ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
+        const notReady = monthlyOrders.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
+
+        document.getElementById("monthlyReportContent").innerHTML = `
+            <div class="stat-line"><span>Ամսվա ընդհանուր՝</span> <b>${total.toLocaleString()} ֏</b></div>
+            <div class="stat-line"><span>Վճարված՝</span> <b style="color:green;">${ready.toLocaleString()} ֏</b></div>
+            <div class="stat-line"><span>Ստացվելիք՝</span> <b style="color:red;">${notReady.toLocaleString()} ֏</b></div>
+        `;
+        document.getElementById("monthlyStats").style.display = "block";
+    }
 }
 
 async function deleteOrder(id) {
@@ -238,7 +274,7 @@ async function deleteOrder(id) {
 }
 
 document.getElementById("clearOrders").addEventListener("click", async () => {
-    if(confirm("Բոլոր պատվերները կջնջվեն անդառնալի:")) {
+    if(confirm("Բոլորը կջնջվեն անդառնալի:")) {
         const snapshot = await db.collection("orders").get();
         const batch = db.batch();
         snapshot.docs.forEach(doc => batch.delete(doc.ref));
