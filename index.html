@@ -8,54 +8,57 @@
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
         .container { width: 100%; background: white; padding: 20px; box-sizing: border-box; min-height: 100vh; }
         
+        /* Լոգո և Վերնագիր */
         .header-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; position: relative; }
         .logo img { max-width: 150px; height: auto; margin-bottom: 10px; }
         h1 { margin: 0; color: #1a1a1a; text-transform: uppercase; letter-spacing: 2px; font-size: 20px; }
         
         .report-wrapper { position: absolute; top: 0; right: 0; }
-        .btn-report { background: #000; color: #fff; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12px; }
+        .btn-report { background: #000; color: #fff; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         
         #monthlyStats { display: none; background: #fff3cd; padding: 20px; border: 1px solid #ffeeba; border-radius: 10px; margin: 20px auto; max-width: 600px; }
         
+        /* Ֆորմայի Դիզայն - Ուղղված */
         .controls-section { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
         
         form { 
             flex: 3; 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
             gap: 15px; 
             background: #f9f9f9; 
-            padding: 20px; 
+            padding: 25px; 
             border-radius: 12px; 
             border: 1px solid #eee; 
-            align-items: end;
+            align-items: start;
         }
 
-        .input-group { display: flex; flex-direction: column; gap: 5px; }
-        label { font-size: 11px; color: #666; font-weight: bold; }
-        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 12px; color: #333; font-weight: bold; margin-bottom: 8px; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 100%; box-sizing: border-box; }
         
-        .btn-add { grid-column: 1 / -1; background: black; color: white; border: none; padding: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 6px; }
+        .btn-add { grid-column: 1 / -1; background: black; color: white; border: none; padding: 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 6px; margin-top: 10px; }
 
+        /* Օրվա հաշվետվություն (աջ կողմ) */
         .filter-section { flex: 1; background: #f4f4f4; padding: 20px; border-radius: 12px; border: 1px solid #ddd; min-width: 250px; }
         
+        /* Աղյուսակ */
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 20px; }
         table { width: 100%; border-collapse: collapse; background: white; }
         th, td { border: 1px solid #dee2e6; padding: 12px; text-align: center; }
-        th { background: #212529; color: #fff; font-size: 12px; text-transform: uppercase; }
+        th { background: #212529; color: #fff; font-size: 12px; }
         
-        /* Խմբագրվող գումարի դաշտ */
-        .price-input { width: 80px; padding: 5px; border: 1px solid #eee; text-align: center; font-weight: bold; border-radius: 4px; }
-        .price-input:focus { border-color: #007bff; outline: none; background: #fff; }
+        /* Խմբագրվող գումար */
+        .price-input { width: 90px; padding: 5px; border: 1px solid #ddd; text-align: center; font-weight: bold; border-radius: 4px; }
 
-        .status-select { font-weight: bold; border: 1px solid #eee; padding: 5px; border-radius: 4px; cursor: pointer; }
-        .ready { color: #28a745; }
-        .not-ready { color: #dc3545; }
+        .status-select { font-weight: bold; padding: 5px; border-radius: 4px; cursor: pointer; }
+        .ready { color: #28a745; border-color: #28a745; }
+        .not-ready { color: #dc3545; border-color: #dc3545; }
         
         .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
         .btn-clear-all { margin-top: 30px; background: #d9534f; color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         
-        .stat-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; line-height: 2; }
+        .stat-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; line-height: 2.5; }
     </style>
 </head>
 <body>
@@ -72,7 +75,7 @@
     <div id="monthlyStats">
         <h3 style="margin:0 0 10px 0; text-align:center;">📈 Ամսական Ամփոփագիր</h3>
         <div id="monthlyReportContent"></div>
-        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width:100%; background:#333; color:white; border:none; padding:8px; cursor:pointer;">ՓԱԿԵԼ</button>
+        <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width:100%; background:#333; color:white; border:none; padding:10px; cursor:pointer; border-radius:5px;">ՓԱԿԵԼ</button>
     </div>
 
     <div class="controls-section">
@@ -108,9 +111,9 @@
         </form>
 
         <div class="filter-section">
-            <label>🔍 Ֆիլտրել ըստ օրվա</label>
-            <input type="date" id="filterDate" style="width:100%; margin:10px 0;">
-            <button onclick="clearFilter()" style="width:100%; padding:8px; cursor:pointer;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
+            <label style="font-weight: bold; font-size: 13px;">📅 Օրվա Հաշվետվություն</label>
+            <input type="date" id="filterDate" style="margin:10px 0;">
+            <button onclick="clearFilter()" style="width:100%; padding:10px; background:#444; color:#fff; border:none; border-radius:5px; cursor:pointer;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
             <div id="filterStatus"></div>
         </div>
     </div>
@@ -171,7 +174,7 @@ function renderOrders(dataToRender) {
                 <td>${order.phone || '-'}</td>
                 <td>
                     <input type="number" class="price-input" value="${order.price || ''}" 
-                    onchange="updatePrice('${order.id}', this.value)" placeholder="0">
+                    onchange="updatePrice('${order.id}', this.value)">
                 </td>
                 <td style="color: #0056b3; font-weight: bold;">${order.deadline || '-'}</td>
                 <td>
@@ -190,19 +193,19 @@ async function updatePrice(id, newPrice) {
     await db.collection("orders").doc(id).update({ price: newPrice });
     const order = allOrders.find(o => o.id === id);
     if(order) order.price = newPrice;
-    refreshStats();
+    refreshCurrentStats();
 }
 
 async function updateStatus(id, newStatus) {
     await db.collection("orders").doc(id).update({ status: newStatus });
     const order = allOrders.find(o => o.id === id);
     if(order) order.status = newStatus;
+    refreshCurrentStats();
     renderOrders(document.getElementById("filterDate").value ? 
         allOrders.filter(o => o.date === document.getElementById("filterDate").value) : allOrders);
-    refreshStats();
 }
 
-function refreshStats() {
+function refreshCurrentStats() {
     const filterInput = document.getElementById("filterDate");
     if(filterInput.value) filterInput.dispatchEvent(new Event('change'));
 }
@@ -274,7 +277,7 @@ async function deleteOrder(id) {
 }
 
 document.getElementById("clearOrders").addEventListener("click", async () => {
-    if(confirm("Բոլորը կջնջվեն անդառնալի:")) {
+    if(confirm("Զգուշացում: Բոլոր պատվերները կջնջվեն:")) {
         const snapshot = await db.collection("orders").get();
         const batch = db.batch();
         snapshot.docs.forEach(doc => batch.delete(doc.ref));
