@@ -8,57 +8,59 @@
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
         .container { width: 100%; background: white; padding: 20px; box-sizing: border-box; min-height: 100vh; }
         
-        /* Լոգո և Վերնագիր */
-        .header-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; position: relative; }
-        .logo img { max-width: 150px; height: auto; margin-bottom: 10px; }
+        /* Հեդեր */
+        .header-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; position: relative; }
+        .logo img { max-width: 120px; height: auto; margin-bottom: 10px; }
         h1 { margin: 0; color: #1a1a1a; text-transform: uppercase; letter-spacing: 2px; font-size: 20px; }
         
         .report-wrapper { position: absolute; top: 0; right: 0; }
-        .btn-report { background: #000; color: #fff; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-report { background: #000; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         
-        #monthlyStats { display: none; background: #fff3cd; padding: 20px; border: 1px solid #ffeeba; border-radius: 10px; margin: 20px auto; max-width: 600px; }
-        
-        /* Ֆորմայի Դիզայն - Ուղղված */
-        .controls-section { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+        /* Մուտքագրման ֆորմա */
+        .controls-section { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; align-items: stretch; }
         
         form { 
             flex: 3; 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
             gap: 15px; 
-            background: #f9f9f9; 
+            background: #ffffff; 
             padding: 25px; 
             border-radius: 12px; 
-            border: 1px solid #eee; 
-            align-items: start;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
         }
 
-        .input-group { display: flex; flex-direction: column; }
-        .input-group label { font-size: 12px; color: #333; font-weight: bold; margin-bottom: 8px; }
-        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 100%; box-sizing: border-box; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { font-size: 13px; color: #555; font-weight: 600; }
+        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; box-sizing: border-box; }
         
-        .btn-add { grid-column: 1 / -1; background: black; color: white; border: none; padding: 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 6px; margin-top: 10px; }
+        .btn-add { grid-column: 1 / -1; background: #000; color: #fff; padding: 15px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 6px; margin-top: 10px; transition: 0.3s; }
+        .btn-add:hover { background: #333; }
 
-        /* Օրվա հաշվետվություն (աջ կողմ) */
-        .filter-section { flex: 1; background: #f4f4f4; padding: 20px; border-radius: 12px; border: 1px solid #ddd; min-width: 250px; }
+        /* Աջ կողմի ֆիլտր */
+        .filter-section { flex: 1; background: #f8f9fa; padding: 20px; border-radius: 12px; border: 1px solid #ddd; min-width: 260px; }
         
         /* Աղյուսակ */
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: center; }
-        th { background: #212529; color: #fff; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 900px; }
+        th, td { border: 1px solid #eee; padding: 15px; text-align: center; }
+        th { background: #212529; color: #fff; font-size: 12px; letter-spacing: 1px; }
         
-        /* Խմբագրվող գումար */
-        .price-input { width: 90px; padding: 5px; border: 1px solid #ddd; text-align: center; font-weight: bold; border-radius: 4px; }
+        /* Խմբագրվող դաշտեր աղյուսակում */
+        .edit-input { width: 90%; padding: 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-family: inherit; }
+        .price-cell { font-weight: bold; color: #000; }
 
-        .status-select { font-weight: bold; padding: 5px; border-radius: 4px; cursor: pointer; }
-        .ready { color: #28a745; border-color: #28a745; }
-        .not-ready { color: #dc3545; border-color: #dc3545; }
+        .status-select { font-weight: bold; padding: 6px; border-radius: 4px; cursor: pointer; border: 1px solid #ddd; }
+        .ready { color: #28a745; background: #e8f5e9; }
+        .not-ready { color: #dc3545; background: #fdecea; }
         
-        .delete-btn { background: none; color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-        .btn-clear-all { margin-top: 30px; background: #d9534f; color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .action-btns { display: flex; gap: 5px; justify-content: center; }
+        .delete-btn { color: #dc3545; border: 1px solid #dc3545; padding: 5px 10px; cursor: pointer; border-radius: 4px; background: none; }
+        .btn-clear-all { margin-top: 40px; background: #dc3545; color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         
-        .stat-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; line-height: 2.5; }
+        #monthlyStats { display: none; background: #fff3cd; padding: 20px; border: 1px solid #ffeeba; border-radius: 10px; margin-bottom: 20px; }
+        .stat-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #ccc; padding: 8px 0; }
     </style>
 </head>
 <body>
@@ -73,7 +75,7 @@
     </div>
 
     <div id="monthlyStats">
-        <h3 style="margin:0 0 10px 0; text-align:center;">📈 Ամսական Ամփոփագիր</h3>
+        <h3 style="margin-top:0; text-align:center;">📈 Ամսական Ամփոփագիր</h3>
         <div id="monthlyReportContent"></div>
         <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width:100%; background:#333; color:white; border:none; padding:10px; cursor:pointer; border-radius:5px;">ՓԱԿԵԼ</button>
     </div>
@@ -111,10 +113,10 @@
         </form>
 
         <div class="filter-section">
-            <label style="font-weight: bold; font-size: 13px;">📅 Օրվա Հաշվետվություն</label>
-            <input type="date" id="filterDate" style="margin:10px 0;">
-            <button onclick="clearFilter()" style="width:100%; padding:10px; background:#444; color:#fff; border:none; border-radius:5px; cursor:pointer;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
-            <div id="filterStatus"></div>
+            <label style="font-weight: bold; display: block; margin-bottom: 10px;">📅 Օրվա Հաշվետվություն</label>
+            <input type="date" id="filterDate">
+            <button onclick="clearFilter()" style="width:100%; padding:10px; background:#444; color:#fff; border:none; border-radius:5px; cursor:pointer; margin-top:10px;">ՏԵՍՆԵԼ ԲՈԼՈՐԸ</button>
+            <div id="filterStatus" style="margin-top:15px;"></div>
         </div>
     </div>
 
@@ -128,7 +130,7 @@
                     <th>Արժեք (֏)</th>
                     <th>Հանձնման օր</th>
                     <th>Կարգավիճակ</th>
-                    <th>Ջնջել</th>
+                    <th>Գործողություն</th>
                 </tr>
             </thead>
             <tbody id="ordersTable"></tbody>
@@ -169,16 +171,15 @@ function renderOrders(dataToRender) {
     dataToRender.forEach(order => {
         tableBody.innerHTML += `
             <tr>
-                <td>${order.date}</td>
-                <td><b>${order.name}</b></td>
-                <td>${order.phone || '-'}</td>
-                <td>
-                    <input type="number" class="price-input" value="${order.price || ''}" 
-                    onchange="updatePrice('${order.id}', this.value)">
+                <td><input type="date" class="edit-input" value="${order.date}" onchange="updateField('${order.id}', 'date', this.value)"></td>
+                <td><input type="text" class="edit-input" value="${order.name}" onchange="updateField('${order.id}', 'name', this.value)"></td>
+                <td><input type="text" class="edit-input" value="${order.phone || ''}" onchange="updateField('${order.id}', 'phone', this.value)"></td>
+                <td class="price-cell">
+                    <input type="number" class="edit-input" value="${order.price || ''}" onchange="updateField('${order.id}', 'price', this.value)">
                 </td>
-                <td style="color: #0056b3; font-weight: bold;">${order.deadline || '-'}</td>
+                <td><input type="date" class="edit-input" value="${order.deadline || ''}" onchange="updateField('${order.id}', 'deadline', this.value)"></td>
                 <td>
-                    <select onchange="updateStatus('${order.id}', this.value)" class="status-select ${order.status}">
+                    <select onchange="updateField('${order.id}', 'status', this.value)" class="status-select ${order.status}">
                         <option value="not-ready" ${order.status === 'not-ready' ? 'selected' : ''}>Պատրաստ չէ</option>
                         <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Պատրաստ է</option>
                     </select>
@@ -189,23 +190,14 @@ function renderOrders(dataToRender) {
     });
 }
 
-async function updatePrice(id, newPrice) {
-    await db.collection("orders").doc(id).update({ price: newPrice });
+async function updateField(id, field, value) {
+    await db.collection("orders").doc(id).update({ [field]: value });
     const order = allOrders.find(o => o.id === id);
-    if(order) order.price = newPrice;
-    refreshCurrentStats();
+    if(order) order[field] = value;
+    refreshStats();
 }
 
-async function updateStatus(id, newStatus) {
-    await db.collection("orders").doc(id).update({ status: newStatus });
-    const order = allOrders.find(o => o.id === id);
-    if(order) order.status = newStatus;
-    refreshCurrentStats();
-    renderOrders(document.getElementById("filterDate").value ? 
-        allOrders.filter(o => o.date === document.getElementById("filterDate").value) : allOrders);
-}
-
-function refreshCurrentStats() {
+function refreshStats() {
     const filterInput = document.getElementById("filterDate");
     if(filterInput.value) filterInput.dispatchEvent(new Event('change'));
 }
@@ -237,7 +229,7 @@ document.getElementById("filterDate").addEventListener("change", (e) => {
     const notReady = filtered.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
 
     document.getElementById("filterStatus").innerHTML = `
-        <div class="stat-line"><span>Ընդհանուր՝</span> <b>${total.toLocaleString()} ֏</b></div>
+        <div class="stat-line"><span>Օրվա ընդհանուր՝</span> <b>${total.toLocaleString()} ֏</b></div>
         <div class="stat-line"><span>Պատրաստի՝</span> <b style="color:green;">${ready.toLocaleString()} ֏</b></div>
         <div class="stat-line"><span>Չպատրաստ՝</span> <b style="color:red;">${notReady.toLocaleString()} ֏</b></div>
     `;
