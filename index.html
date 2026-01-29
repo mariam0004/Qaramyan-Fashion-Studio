@@ -3,113 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnQar Fashion Studio - Full Width System</title>
+    <title>AnQar Fashion Studio - Professional System</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f4f9; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
         
-        .container { width: 98%; margin: 10px auto; background: white; padding: 20px; box-sizing: border-box; min-height: 100vh; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        .container { width: 98%; margin: 10px auto; background: white; padding: 25px; box-sizing: border-box; min-height: 100vh; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
         
-        /* Վերևի պանել (Header) */
-        .top-panel { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 25px; 
-            padding-bottom: 15px; 
-            border-bottom: 2px solid #eee;
+        /* Վերևի պանելի դիզայն */
+        .header-main { 
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
         }
 
-        .logo-section { display: flex; align-items: center; gap: 15px; }
-        .logo-section img { max-width: 100px; height: auto; }
-        .logo-section h1 { margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 2px; }
+        .header-left { display: flex; align-items: center; }
+        .header-center { text-align: center; }
+        .header-right { display: flex; justify-content: flex-end; align-items: center; }
 
-        /* Ֆիլտրը վերևի պանելում */
-        .top-filter { display: flex; align-items: center; gap: 10px; background: #f9f9f9; padding: 10px 20px; border-radius: 10px; border: 1px solid #ddd; }
-        .top-filter label { font-weight: bold; font-size: 14px; }
-        .top-filter input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+        /* Լոգոն մեջտեղում */
+        .logo-large { max-width: 180px; height: auto; transition: 0.3s; }
+        .studio-title { margin-top: 10px; font-size: 20px; letter-spacing: 5px; text-transform: uppercase; color: #000; }
 
-        .btn-report { background: #000; color: #fff; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        /* Ֆիլտրը վերևում */
+        .top-filter-box { background: #f1f3f5; padding: 8px 15px; border-radius: 8px; border: 1px solid #dee2e6; display: flex; align-items: center; gap: 10px; }
+        .top-filter-box label { font-size: 13px; font-weight: bold; color: #495057; }
+        .top-filter-box input { border: 1px solid #ced4da; padding: 6px; border-radius: 4px; outline: none; }
 
-        /* Մուտքագրման ֆորմա - Երկար դաշտեր */
-        .form-section { margin-bottom: 30px; }
+        .btn-report { background: #000; color: #fff; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 12px; }
+
+        /* Ֆորմայի դաշտեր */
+        .form-section { width: 100%; margin-bottom: 30px; }
         form { 
             display: grid; 
-            grid-template-columns: 2fr 1.5fr 1fr 1.2fr 1.2fr 1fr; 
-            gap: 15px; 
-            background: #fff; 
-            padding: 25px; 
-            border-radius: 12px; 
+            grid-template-columns: 1.2fr 1.2fr 1fr 1fr 1fr 1fr; /* Հաճախորդը կարճացված է */
+            gap: 12px; 
+            background: #ffffff; 
+            padding: 20px; 
+            border-radius: 10px; 
             border: 1px solid #eee;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
 
-        .input-group { display: flex; flex-direction: column; gap: 8px; }
-        .input-group label { font-size: 13px; color: #555; font-weight: 600; }
+        .input-group { display: flex; flex-direction: column; gap: 6px; }
+        .input-group label { font-size: 12px; color: #666; font-weight: 600; padding-left: 2px; }
         
-        input, select { 
-            padding: 14px; 
-            border: 1px solid #ccc; 
-            border-radius: 8px; 
-            font-size: 15px; 
-            width: 100%;
-            box-sizing: border-box;
-        }
+        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; box-sizing: border-box; }
+        input:focus { border-color: #000; outline: none; }
 
         .btn-add { 
             grid-column: 1 / -1; 
             background: #000; 
             color: #fff; 
-            padding: 16px; 
+            padding: 15px; 
             border: none; 
             cursor: pointer; 
             font-weight: bold; 
             text-transform: uppercase; 
-            border-radius: 8px; 
+            border-radius: 6px; 
             margin-top: 10px;
-            font-size: 16px;
+            letter-spacing: 2px;
         }
 
-        /* Աղյուսակ */
-        .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; }
+        /* Աղյուսակի դիզայն */
+        .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; background: white; }
-        th { background: #212529; color: #fff; padding: 15px; font-size: 13px; text-transform: uppercase; }
-        td { border-bottom: 1px solid #eee; padding: 12px; text-align: center; }
+        th { background: #1a1a1a; color: #fff; padding: 15px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        td { border-bottom: 1px solid #f2f2f2; padding: 12px; text-align: center; }
         
-        .edit-input { width: 95%; padding: 8px; border: 1px solid #eee; border-radius: 5px; text-align: center; font-size: 14px; }
+        .edit-input { width: 90%; padding: 7px; border: 1px solid transparent; border-radius: 4px; text-align: center; font-size: 14px; transition: 0.2s; }
+        .edit-input:hover { border-color: #ddd; background: #f9f9f9; }
+        .edit-input:focus { border-color: #000; background: #fff; outline: none; }
 
-        .status-select { font-weight: bold; padding: 8px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; }
-        .ready { color: #2ecc71; background: #f0fff4; }
-        .not-ready { color: #e74c3c; background: #fff5f5; }
+        .status-select { font-weight: bold; padding: 8px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; font-size: 13px; }
+        .ready { color: #2ecc71; background: #f0fff4; border-color: #2ecc71; }
+        .not-ready { color: #e74c3c; background: #fff5f5; border-color: #e74c3c; }
         
-        .delete-btn { color: #e74c3c; border: 1px solid #e74c3c; padding: 5px 12px; cursor: pointer; border-radius: 6px; background: none; }
+        .delete-btn { color: #e74c3c; border: 1px solid #f5c2c7; padding: 6px 12px; cursor: pointer; border-radius: 6px; background: none; font-size: 16px; }
+        .delete-btn:hover { background: #e74c3c; color: #fff; }
 
-        .btn-clear-all { margin-top: 30px; background: #e74c3c; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .btn-clear-all { margin-top: 30px; background: #e74c3c; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; opacity: 0.9; }
 
-        #monthlyStats { display: none; background: #fff9db; padding: 20px; border: 1px solid #ffe066; border-radius: 12px; margin-bottom: 20px; }
-        .stat-line { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #fab005; }
+        #monthlyStats { display: none; background: #fff9db; padding: 25px; border: 1px solid #ffe066; border-radius: 12px; margin-bottom: 20px; }
+        .stat-line { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #fab005; font-size: 16px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="top-panel">
-        <div class="logo-section">
-            <img src="logo.png" alt="Logo">
-            <h1>AnQar Fashion</h1>
+    <header class="header-main">
+        <div class="header-left">
+            <div class="top-filter-box">
+                <label>📅 ՖԻԼՏՐ</label>
+                <input type="date" id="filterDate" onchange="filterByDate()">
+                <button onclick="clearFilter()" style="border:none; background:none; cursor:pointer; font-size:11px; text-decoration:underline;">Բոլորը</button>
+                <span id="quickStats" style="margin-left:10px; font-weight:bold; color:#000; border-left:1px solid #ccc; padding-left:10px;"></span>
+            </div>
         </div>
 
-        <div class="top-filter">
-            <label>📅 Ֆիլտրել ըստ օրվա:</label>
-            <input type="date" id="filterDate" onchange="filterByDate()">
-            <button onclick="clearFilter()" style="padding: 8px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">Բոլորը</button>
-            <div id="quickStats" style="margin-left: 15px; font-weight: bold; font-size: 14px; color: #000;"></div>
+        <div class="header-center">
+            <img src="logo.png" alt="AnQar Logo" class="logo-large">
+            <div class="studio-title">AnQar Fashion Studio</div>
         </div>
 
-        <button class="btn-report" onclick="showMonthlyReport()">📊 Ամսական Հաշվետվություն</button>
-    </div>
+        <div class="header-right">
+            <button class="btn-report" onclick="showMonthlyReport()">📊 ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ</button>
+        </div>
+    </header>
 
     <div id="monthlyStats">
-        <h3 style="margin-top:0; text-align:center;">📈 Ամսական Ամփոփագիր</h3>
+        <h3 style="margin-top:0; text-align:center;">📊 Ամսական Ամփոփագիր</h3>
         <div id="monthlyReportContent"></div>
         <button onclick="document.getElementById('monthlyStats').style.display='none'" style="margin-top:15px; width:100%; background:#333; color:white; border:none; padding:10px; cursor:pointer; border-radius:5px;">ՓԱԿԵԼ</button>
     </div>
@@ -118,7 +123,7 @@
         <form id="orderForm">
             <div class="input-group">
                 <label>Հաճախորդ</label>
-                <input type="text" id="name" placeholder="Անուն Ազգանուն" required>
+                <input type="text" id="name" placeholder="Անուն" required>
             </div>
             <div class="input-group">
                 <label>Հեռախոս</label>
@@ -219,7 +224,7 @@ async function updateField(id, field, value) {
     await db.collection("orders").doc(id).update({ [field]: value });
     const order = allOrders.find(o => o.id === id);
     if(order) order[field] = value;
-    filterByDate(); 
+    filterByDate();
 }
 
 function filterByDate() {
@@ -231,9 +236,8 @@ function filterByDate() {
     }
     const filtered = allOrders.filter(o => o.date === selectedDate);
     renderOrders(filtered);
-    
     const total = filtered.reduce((sum, o) => sum + Number(o.price || 0), 0);
-    document.getElementById("quickStats").innerHTML = `Օրվա հասույթ: ${total.toLocaleString()} ֏`;
+    document.getElementById("quickStats").innerHTML = `${total.toLocaleString()} ֏`;
 }
 
 function clearFilter() {
@@ -270,7 +274,7 @@ function showMonthlyReport() {
         const notReady = monthlyOrders.filter(o => o.status === 'not-ready').reduce((sum, o) => sum + Number(o.price || 0), 0);
 
         document.getElementById("monthlyReportContent").innerHTML = `
-            <div class="stat-line"><span>Ամսվա ընդհանուր՝</span> <b>${total.toLocaleString()} ֏</b></div>
+            <div class="stat-line"><span>Ընդհանուր՝</span> <b>${total.toLocaleString()} ֏</b></div>
             <div class="stat-line"><span>Վճարված՝</span> <b style="color:#2ecc71;">${ready.toLocaleString()} ֏</b></div>
             <div class="stat-line"><span>Ստացվելիք՝</span> <b style="color:#e74c3c;">${notReady.toLocaleString()} ֏</b></div>
         `;
@@ -285,6 +289,17 @@ async function deleteOrder(id) {
         filterByDate();
     }
 }
+
+document.getElementById("clearOrders").addEventListener("click", async () => {
+    if(confirm("Զգուշացում: Բոլոր պատվերները կջնջվեն:")) {
+        const snapshot = await db.collection("orders").get();
+        const batch = db.batch();
+        snapshot.docs.forEach(doc => batch.delete(doc.ref));
+        await batch.commit();
+        allOrders = [];
+        renderOrders(allOrders);
+    }
+});
 </script>
 </body>
 </html>
